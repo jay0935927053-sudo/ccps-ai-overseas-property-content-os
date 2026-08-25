@@ -45,7 +45,7 @@
   "validator": "node scripts/validate-ccps-os.mjs",
   "acceptance": {
     "deterministic_validator": "56/56 PASS",
-    "browser_acceptance": "33/33 PASS",
+    "browser_acceptance": "35/35 PASS",
     "viewport": "390x844",
     "paid_api_called": false,
     "repository": "https://github.com/jay0935927053-sudo/ccps-ai-overseas-property-content-os",
@@ -57,5 +57,5 @@
   "on_pass": "等待人工確認 Push 與 Deploy",
   "on_fail": "AUTO_REPAIR_FAILED_SCOPE_MAX_2_THEN_STOP",
   "external_actions_authorized": false,
-  "stop_reason": "Independent CCPS company, ads management, ad operator button and quick-work link sections verified locally; Push and Deploy require explicit human approval"
+  "stop_reason": "Independent CCPS company, ads management, ad operator, ChatArt Pro and Uncle House AI Director links verified locally; Push and Deploy require explicit human approval"
 }
