@@ -1,11 +1,13 @@
 import { BRAND_CTA, CONTENT_CATEGORIES, CONTENT_ROLES, EVIDENCE_STATES, HOOK_TYPES, MATERIAL_TYPES, NARRATIVE_TYPES } from "./ccps-rules.js";
 import { BRAND_FIELD_OPTIONS } from "./ccps-brand-options.js";
 import { buildArticle, platformRewrite, rotateDna } from "./ccps-content-engine.js";
+import { ASPECT_RATIOS, PLATFORM_ASSET_TYPES, VIDEO_DURATIONS, VIDEO_STYLES, generatePlatformAsset } from "./ccps-multiplatform-engine.js";
 import { runPreflight } from "./ccps-preflight.js";
 import { readStore, writeStore } from "./ccps-storage.js";
 const $=id=>document.getElementById(id); let current=null; let officialMaterials=[];
 const fill=(id,items)=>$(id).innerHTML=items.map(x=>`<option>${x}</option>`).join("");
 fill("category",CONTENT_CATEGORIES);fill("contentRole",CONTENT_ROLES);fill("hookType",HOOK_TYPES);fill("narrativeType",NARRATIVE_TYPES);fill("materialType",MATERIAL_TYPES);fill("materialEvidence",EVIDENCE_STATES);
+fill("platformAssetType",PLATFORM_ASSET_TYPES);fill("videoDuration",VIDEO_DURATIONS.map(x=>`${x} 秒`));fill("videoStyle",VIDEO_STYLES);fill("aspectRatio",ASPECT_RATIOS);
 Object.entries(BRAND_FIELD_OPTIONS).forEach(([id,options])=>fill(id,options));
 document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.id===b.dataset.tab));document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("primary",x===b));renderAll()});
 const val=id=>$(id).value.trim();
@@ -19,6 +21,8 @@ $("save").onclick=()=>{if(!current||current.blocked)return alert("請先生成�
 $("copy").onclick=()=>current&&!current.blocked&&navigator.clipboard.writeText(current.body);
 $("download").onclick=()=>{if(!current||current.blocked)return;const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([current.body],{type:"text/plain"}));a.download="CCPS_FB_Trust_Article.txt";a.click();URL.revokeObjectURL(a.href)};
 $("rewrite").onclick=()=>$("platformOutput").textContent=current&&!current.blocked?Object.entries(platformRewrite(current)).map(([k,v])=>`【${k}】\n${v}`).join("\n\n"):"請先產生文章。";
+$("generatePlatformAsset").onclick=()=>{$("platformAssetOutput").textContent=current&&!current.blocked?generatePlatformAsset(current,{asset_type:val("platformAssetType"),duration:Number(val("videoDuration").replace(" 秒","")),video_style:val("videoStyle"),aspect_ratio:val("aspectRatio")}):"請先產生文章。"};
+$("copyPlatformAsset").onclick=()=>{const text=$("platformAssetOutput").textContent;if(text&&!text.startsWith("尚未")&&!text.startsWith("請先"))navigator.clipboard.writeText(text)};
 $("saveMaterial").onclick=()=>{if(!val("materialTitle")||!val("materialBody"))return alert("請填素材標題與內容。");const items=readStore("materials",[]);items.unshift({id:crypto.randomUUID(),type:val("materialType"),title:val("materialTitle"),body:val("materialBody"),evidence_state:val("materialEvidence"),source:val("materialSource"),source_date:val("materialDate"),region:val("materialRegion"),property:val("materialProperty"),client_type:val("materialClient"),tags:val("materialTags"),freshness_required:$("materialFresh").checked,privacy_note:val("materialPrivacy")});writeStore("materials",items);renderMaterials()};
 const fields=(prefix,ids)=>Object.fromEntries(ids.map(id=>[id.replace(prefix,""),val(id)]));
 $("saveBrand").onclick=()=>writeStore("brand",fields("brand",["brandPosition","brandArea","brandAudience","brandTone","brandPrinciples","brandForbidden","brandEnding"]));

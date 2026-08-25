@@ -13,6 +13,14 @@ check("article evidence fields absent",await page.locator("#evidenceState,#sourc
 await page.click("#generate");
 check("direct article generation",(await page.textContent("#gate")).includes("PASS"));
 check("article output CTA",(await page.textContent("#output")).includes("追蹤ccps家慶佳業"));
+check("4 platform asset choices",await page.locator("#platformAssetType option").count()===4);
+check("video durations",await page.locator("#videoDuration option").allTextContents().then(x=>x.join(",")==="15 秒,30 秒,60 秒"));
+check("8+ video styles",await page.locator("#videoStyle option").count()>=8);
+await page.selectOption("#platformAssetType",{label:"IG 五張輪播"});await page.click("#generatePlatformAsset");
+check("IG five slide output",(await page.textContent("#platformAssetOutput")).match(/第 [1-5] 張｜/g)?.length===5);
+await page.selectOption("#platformAssetType",{label:"影片腳本與分鏡"});await page.selectOption("#videoDuration",{label:"60 秒"});await page.click("#generatePlatformAsset");
+const videoOutput=await page.textContent("#platformAssetOutput");
+check("60 second storyboard",videoOutput.includes("【60 秒影片腳本與逐鏡分鏡】")&&videoOutput.includes("分鏡圖提示詞：")&&videoOutput.includes("追蹤ccps家慶佳業"));
 check("header logo visible",await page.locator(".brand-logo").isVisible());
 await page.click('[data-tab="brand"]');
 const brandSelectIds=["brandPosition","brandArea","brandAudience","brandTone","brandPrinciples","brandForbidden","voiceTone","voiceColloquial","voicePerson","voiceWords","voiceForbidden","voiceNever","voicePrinciples","voiceExamples"];

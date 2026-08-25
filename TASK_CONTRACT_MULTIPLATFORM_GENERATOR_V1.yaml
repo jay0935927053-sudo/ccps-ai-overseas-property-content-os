@@ -1,0 +1,28 @@
+task_id: "CCPS-MULTIPLATFORM-GENERATOR-V1-001"
+milestone: "多平台圖片與影片腳本生成器 V1"
+active_repository: "."
+status: "VERIFIED_WAITING_HUMAN_PUSH_DEPLOY"
+inventory:
+  reuse: ["既有 FB 信任文章", "platformRewrite", "固定品牌 CTA", "品牌與 Voice 設定"]
+  adapter: ["多平台改寫介面", "圖片提示詞", "影片腳本與逐鏡分鏡提示詞"]
+frozen_scope:
+  outputs: ["FB 圖片提示詞", "IG 五張輪播提示詞", "YouTube 封面提示詞", "15／30／60 秒影片腳本", "逐鏡分鏡提示詞"]
+  choices: ["成品類型", "影片長度", "影片風格至少 8 種", "畫面比例"]
+  preserve: ["既有文章生成", "固定結尾：追蹤ccps家慶佳業", "素材庫", "品牌設定", "成效追蹤"]
+  forbidden: ["實際呼叫圖片或影片 API", "付費 API", "Push", "Deploy", "Secrets"]
+acceptance_checks: ["四類成品可選", "IG 恰好五張", "影片長度 15／30／60", "影片風格至少 8 種", "逐鏡含時間、畫面、鏡位、字幕、口白與提示詞", "固定 CTA", "手機版無橫向溢位"]
+repair_policy: {max_passes: 2, successful_steps_are_cached: true}
+on_pass: "人工確認 Push 與 Deploy"
+on_fail: "AUTO_REPAIR only failed scope, maximum two passes; then STOP"
+human_gate: ["Push", "Deploy"]
+state_writeback: "CURRENT_STATE.json"
+acceptance_evidence:
+  deterministic_validator: "44/44 PASS"
+  mobile_browser_smoke: "21/21 PASS at 390x844"
+  platform_asset_types: 4
+  instagram_slides: 5
+  video_durations: [15, 30, 60]
+  video_styles: 8
+  aspect_ratios: 4
+  paid_api_called: false
+  fixed_cta: "追蹤ccps家慶佳業"
