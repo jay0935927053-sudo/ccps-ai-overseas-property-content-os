@@ -17,8 +17,8 @@ export function buildArticle(form,recent=[]) {
   const dna=differentDna(form,recent);
   const checks=runPreflight({...form,body},recent);
   if (checks.fabricated_story_gate.startsWith("BLOCK")) return {blocked:true,code:checks.fabricated_story_gate,checks};
-  return {blocked:false,role:form.content_role,hook,body,comment_question:form.comment_question,image_suggestion:form.visual_type,checks,why_different:`與最近兩篇有 ${dna.differences}/5 個 Content DNA 欄位不同`,dna_status:dna.pass?"PASS":"FAIL: LOW_CONTENT_DNA_VARIANCE",...form};
+  return {blocked:false,role:form.content_role,hook,body,comment_question:form.comment_question,image_suggestion:form.visual_type,checks,why_different:`與最近兩篇有 ${dna.differences}/5 個內容指紋欄位不同`,dna_status:dna.pass?"PASS":"FAIL: LOW_CONTENT_DNA_VARIANCE",...form};
 }
 export function platformRewrite(article) {
-  return {Threads:`${article.hook}\n${article.body.slice(0,180)}…\n${BRAND_CTA}`,LINE:`${article.hook}\n想了解完整判斷清單，歡迎回覆你的問題。\n${BRAND_CTA}`,Reels:`開場：${article.hook}\n重點：${article.body.slice(0,140)}…\nCTA：${BRAND_CTA}`};
+  return {脆文:`${article.hook}\n${article.body.slice(0,180)}…\n${BRAND_CTA}`,LINE訊息:`${article.hook}\n想了解完整判斷清單，歡迎回覆你的問題。\n${BRAND_CTA}`,短影音口播:`開場：${article.hook}\n重點：${article.body.slice(0,140)}…\n行動呼籲：${BRAND_CTA}`};
 }

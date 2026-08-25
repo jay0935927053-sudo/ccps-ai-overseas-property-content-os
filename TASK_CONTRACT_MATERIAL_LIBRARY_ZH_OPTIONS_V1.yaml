@@ -1,0 +1,26 @@
+task_id: "CCPS-MATERIAL-LIBRARY-ZH-OPTIONS-V1-001"
+milestone: "素材庫全中文化與可選式填寫"
+active_repository: "."
+status: "VERIFIED_WAITING_HUMAN_PUSH_DEPLOY"
+inventory:
+  reuse: ["既有素材資料結構", "既有證據狀態代碼", "185 筆信任內容來源", "localStorage 相容"]
+  adapter: ["中文顯示層", "素材欄位選項", "搜尋主題選項", "素材庫使用說明"]
+frozen_scope:
+  outputs: ["使用者可見操作文字中文化", "標題／來源／區域／建案／客群／標籤／內容範本／隱私備註選項", "時效性檢查中文說明", "信任來源搜尋主題", "素材庫使用步驟"]
+  preserve: ["VERIFIED_CURRENT／MEMORY_DERIVED／UNKNOWN 內部值", "既有素材與文章", "固定品牌 CTA", "外部工具白名單"]
+  forbidden: ["清除舊資料", "改寫知識庫正文", "自動查證外部資料", "Push", "Deploy"]
+acceptance_checks: ["內部證據代碼中文顯示", "素材表單可用選項完成", "標籤可複選", "內容範本可帶入並編輯", "搜尋主題可篩選", "使用說明可見", "既有素材儲存與來源庫匯入正常", "手機版無橫向溢位"]
+repair_policy: {max_passes: 2, successful_steps_are_cached: true}
+on_pass: "人工確認 Push 與 Deploy"
+on_fail: "AUTO_REPAIR only failed scope, maximum two passes; then STOP"
+human_gate: ["Push", "Deploy"]
+state_writeback: "CURRENT_STATE.json"
+acceptance_evidence:
+  deterministic_validator: "75/75 PASS"
+  browser_acceptance: "52/52 PASS"
+  viewport: "390x844"
+  security_validator: "6/6 PASS"
+  official_materials_validator: "9/9 PASS"
+  guide_knowledge_validator: "9/9 PASS"
+  local_trust_sources_validator: "13/13 PASS"
+  paid_api_called: false

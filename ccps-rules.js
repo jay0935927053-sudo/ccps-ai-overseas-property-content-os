@@ -1,8 +1,8 @@
 export const CONTENT_ROLES = ["共鳴故事","專業判斷","反常識","避坑","幕後","案例","轉換"];
-export const CONTENT_CATEGORIES = ["馬來西亞置產","吉隆坡區域分析","建案研究","海外置產避坑","客戶 FAQ","成交案例","CCPS 辦公室日常","團隊幕後","海外資產配置","第二生活圈","MM2H / PVIP","國際學校","說明會 / 活動","客戶諮詢","房市觀察"];
+export const CONTENT_CATEGORIES = ["馬來西亞置產","吉隆坡區域分析","建案研究","海外置產避坑","客戶常見問題","成交案例","CCPS 辦公室日常","團隊幕後","海外資產配置","第二生活圈","MM2H／PVIP","國際學校","說明會／活動","客戶諮詢","房市觀察"];
 export const HOOK_TYPES = ["情境開場","客戶問題","數字衝突","反常識","自我質疑","兩難選擇","直接結論","現場紀錄","錯誤 / 失敗"];
 export const NARRATIVE_TYPES = ["Scene → Conflict → Judgment → Lesson","Contrarian → Evidence → Boundary → Conclusion","Question → Decision Tree → Recommendation","Mistake → Cost → Correction → Checklist","Case → Turning Point → Decision → Result","Behind-the-scenes → Invisible Work → Client Value","Data → Meaning → What It Does NOT Mean → Decision","A vs B → Comparison → Fit","Diary → Observation → Reflection","Myth → Why → Reality → Exception"];
-export const MATERIAL_TYPES = ["客戶問題","真實成交案例","建案研究","區域分析","市場數據","政策資料","CCPS 工作幕後","顧問觀察","說明會","活動","國際學校","第二生活圈","MM2H / PVIP","真實照片","真實文件"];
+export const MATERIAL_TYPES = ["客戶問題","真實成交案例","建案研究","區域分析","市場數據","政策資料","CCPS 工作幕後","顧問觀察","說明會","活動","國際學校","第二生活圈","MM2H／PVIP","真實照片","真實文件"];
 export const EVIDENCE_STATES = ["VERIFIED_CURRENT","MEMORY_DERIVED","UNKNOWN"];
 export const FRESH_TOPICS = /MM2H|PVIP|稅務|匯率|法規|房價|租金|政策|建案/;
 export const FABRICATED_PATTERNS = [/昨天有位客戶/,/上週我們遇到/,/有一位客戶曾經/,/團隊昨天開會/];
