@@ -44,8 +44,8 @@
   "source": {"repository":"jay0935927053-sudo/uncle-house-ai-tool","branch":"main","head_sha":"3e73dc96c3e3cf22e9e8d5d90c186551e6140888"},
   "validator": "node scripts/validate-ccps-os.mjs",
   "acceptance": {
-    "deterministic_validator": "51/51 PASS",
-    "browser_acceptance": "27/27 PASS",
+    "deterministic_validator": "55/55 PASS",
+    "browser_acceptance": "32/32 PASS",
     "viewport": "390x844",
     "paid_api_called": false,
     "repository": "https://github.com/jay0935927053-sudo/ccps-ai-overseas-property-content-os",
@@ -57,5 +57,5 @@
   "on_pass": "等待人工確認 Push 與 Deploy",
   "on_fail": "AUTO_REPAIR_FAILED_SCOPE_MAX_2_THEN_STOP",
   "external_actions_authorized": false,
-  "stop_reason": "Homepage GPT image, ChatArt Pro video and six social platform quick links verified locally; Push and Deploy require explicit human approval"
+  "stop_reason": "Independent CCPS company, ads management and quick-work link sections verified locally; Push and Deploy require explicit human approval"
 }

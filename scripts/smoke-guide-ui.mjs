@@ -10,6 +10,11 @@ const check = (name, pass, detail = "") => checks.push({ name, pass: Boolean(pas
 
 await page.goto("http://127.0.0.1:4173/", { waitUntil: "networkidle" });
 check("quick links visible",await page.locator("#quickLinks").isVisible());
+check("independent company links visible",await page.locator("#companyLinks").isVisible());
+check("independent ads links visible",await page.locator("#adsLinks").isVisible());
+check("3 CCPS company choices",await page.locator("#companySiteLink option").count()===3);
+check("CCPS official site",await page.inputValue("#companySiteLink")==="https://ccps-my.com/");
+check("ads manager selection",await page.inputValue("#adsManagerLink")==="https://adsmanager.facebook.com/");
 check("GPT image link",await page.inputValue("#imageToolLink")==="https://chatgpt.com/");
 check("ChatArt Pro link",await page.inputValue("#videoToolLink")==="https://app.chatartpro.com/");
 check("6 social platform choices",await page.locator("#socialPlatformLink option").count()===6);

@@ -10,7 +10,7 @@ const fill=(id,items)=>$(id).innerHTML=items.map(x=>`<option>${x}</option>`).joi
 const fillLinks=(id,items)=>$(id).replaceChildren(...items.map(item=>new Option(item.label,item.url)));
 fill("category",CONTENT_CATEGORIES);fill("contentRole",CONTENT_ROLES);fill("hookType",HOOK_TYPES);fill("narrativeType",NARRATIVE_TYPES);fill("materialType",MATERIAL_TYPES);fill("materialEvidence",EVIDENCE_STATES);
 fill("platformAssetType",PLATFORM_ASSET_TYPES);fill("videoDuration",VIDEO_DURATIONS.map(x=>`${x} 秒`));fill("videoStyle",VIDEO_STYLES);fill("aspectRatio",ASPECT_RATIOS);
-fillLinks("imageToolLink",EXTERNAL_LINK_GROUPS.image);fillLinks("videoToolLink",EXTERNAL_LINK_GROUPS.video);fillLinks("socialPlatformLink",EXTERNAL_LINK_GROUPS.social);
+fillLinks("companySiteLink",EXTERNAL_LINK_GROUPS.company);fillLinks("adsManagerLink",EXTERNAL_LINK_GROUPS.ads);fillLinks("imageToolLink",EXTERNAL_LINK_GROUPS.image);fillLinks("videoToolLink",EXTERNAL_LINK_GROUPS.video);fillLinks("socialPlatformLink",EXTERNAL_LINK_GROUPS.social);
 Object.entries(BRAND_FIELD_OPTIONS).forEach(([id,options])=>fill(id,options));
 document.querySelectorAll("[data-open-link]").forEach(button=>button.onclick=()=>{const url=$(button.dataset.openLink).value;if(isApprovedExternalUrl(url))window.open(url,"_blank","noopener,noreferrer")});
 document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.id===b.dataset.tab));document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("primary",x===b));renderAll()});
