@@ -10,6 +10,8 @@ python3 -m http.server 8080
 
 瀏覽 `http://127.0.0.1:8080/`。API Key 只存在當前分頁記憶體，不寫入 localStorage；V1 的確定性文章產生、檢查、素材、品牌、Voice、月曆及 Tracking 不需付費 API。
 
+文章產生不要求使用者提供證據狀態、來源日期或證據文字；即時性主題只顯示複核提醒，不阻擋生成。防杜撰客戶、成交或會議故事的檢查仍保留。
+
 ## CCPS 官網官方素材
 
 - `data/ccps-official-source-registry.json`：完整官網來源清單、採用狀態與排除原因。

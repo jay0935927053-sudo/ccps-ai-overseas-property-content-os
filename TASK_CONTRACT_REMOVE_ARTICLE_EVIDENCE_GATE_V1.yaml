@@ -1,0 +1,24 @@
+task_id: "CCPS-REMOVE-ARTICLE-EVIDENCE-GATE-V1-001"
+milestone: "移除文章證據輸入與生成阻擋"
+active_repository: "."
+status: "VERIFIED_WAITING_HUMAN_PUSH_DEPLOY"
+inventory:
+  repair: ["文章表單", "文章生成引擎", "Preflight", "Tracking 欄位", "Validator", "內容規則"]
+  reuse: ["素材庫 Evidence/Freshness metadata", "品牌 CTA", "防杜撰故事檢查", "Content DNA"]
+frozen_scope:
+  remove: ["文章真實證據狀態", "文章來源日期", "文章真實證據輸入", "EVIDENCE_REQUIRED 生成阻擋", "文章 evidence_type tracking"]
+  preserve: ["素材庫來源與 Evidence metadata", "Freshness 提醒", "防杜撰故事阻擋", "既有知識庫", "品牌 CTA"]
+  forbidden: ["修改素材來源資料", "Push", "Deploy", "Secrets", "付費 API"]
+acceptance_checks: ["無文章證據 UI", "空白證據可生成", "無 EVIDENCE_REQUIRED", "Freshness 只提醒", "假故事仍阻擋", "手機版驗收"]
+repair_policy: {max_passes: 2, successful_steps_are_cached: true}
+on_pass: "人工確認 Push 與 Deploy"
+on_fail: "AUTO_REPAIR only failed scope, maximum two passes; then STOP"
+human_gate: ["Push", "Deploy"]
+state_writeback: "CURRENT_STATE.json"
+acceptance_evidence:
+  deterministic_validator: "26/26 PASS"
+  mobile_browser_smoke: "12/12 PASS at 390x844"
+  article_evidence_fields: "ABSENT"
+  direct_generation: "PASS"
+  fabricated_story_gate: "PRESERVED"
+  freshness_behavior: "REVIEW_RECOMMENDED"

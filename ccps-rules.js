@@ -9,6 +9,5 @@ export const FABRICATED_PATTERNS = [/昨天有位客戶/,/上週我們遇到/,/�
 export const CLICHES = ["在這個快速變化的時代","隨著科技日新月異","值得注意的是","不僅如此","透過這些內容","無論你是","讓我們一起","開啟全新篇章","賦能","打造屬於你的","不只是…更是…","在自媒體時代"];
 export const SIMILARITY_THRESHOLDS = Object.freeze({ warn: 0.25, fail: 0.40 });
 export const STORAGE_KEYS = Object.freeze({brand:"ccpsOsBrandV1",materials:"ccpsOsMaterialsV1",posts:"ccpsOsPostsV1",tracking:"ccpsOsTrackingV1",voice:"ccpsOsVoiceV1",settings:"ccpsOsSettingsV1"});
-export const TRACKING_FIELDS = ["content_role","hook_type","narrative_type","evidence_type","visual_type","CTA_type","reach","reactions","comments","shares","saves","clicks","inquiries","follows","qualitative_notes"];
+export const TRACKING_FIELDS = ["content_role","hook_type","narrative_type","visual_type","CTA_type","reach","reactions","comments","shares","saves","clicks","inquiries","follows","qualitative_notes"];
 export const BRAND_CTA = "追蹤ccps家慶佳業";
-

@@ -18,19 +18,19 @@ check("single similarity threshold source",Object.keys(rules.SIMILARITY_THRESHOL
 check("storage namespace",Object.values(rules.STORAGE_KEYS).every(k=>k.startsWith("ccpsOs")));
 check("no uncleHouse storage key",!text.includes("uncleHouse"));
 check("no secret literal",!/(sk-[A-Za-z0-9_-]{8,}|EA[A-Za-z0-9]{30,})/.test(text));
-check("evidence gate",text.includes("evidence_gate") && text.includes("EVIDENCE_REQUIRED"));
+check("article evidence gate removed",!text.includes("EVIDENCE_REQUIRED")&&!text.includes('id="evidenceState"')&&!text.includes('id="evidence"'));
 check("fabricated story gate",text.includes("fabricated_story_gate") && text.includes("FABRICATED_REAL_WORLD_EVENT"));
 check("voice fingerprint",text.includes("CCPS 寫作指紋") && text.includes("Voice Fingerprint"));
 check("tracking fields",rules.TRACKING_FIELDS.every(f=>text.includes(f)),rules.TRACKING_FIELDS.filter(f=>!text.includes(f)).join(","));
 check("brand CTA",rules.BRAND_CTA==="追蹤ccps家慶佳業" && !/追蹤房叔|房叔自媒體學院/.test(text));
-const base={topic:"MM2H 政策",content_role:"專業判斷",hook_type:"直接結論",narrative_type:rules.NARRATIVE_TYPES[1],evidence_state:"UNKNOWN",evidence:"",source_date:"",visual_type:"真實文件",CTA_type:rules.BRAND_CTA,comment_question:"你最想知道什麼？"};
-check("unknown blocks generation",engine.buildArticle(base,[]).code==="EVIDENCE_REQUIRED");
+const base={topic:"MM2H 政策",content_role:"專業判斷",hook_type:"直接結論",narrative_type:rules.NARRATIVE_TYPES[1],visual_type:"真實文件",CTA_type:rules.BRAND_CTA,comment_question:"你最想知道什麼？"};
+check("direct generation",!engine.buildArticle(base,[]).blocked);
 const fake=preflight.runPreflight({...base,body:"昨天有位客戶問我們怎麼判斷"},[]);
 check("fake story blocks",fake.fabricated_story_gate==="BLOCK: FABRICATED_REAL_WORLD_EVENT");
-const good=engine.buildArticle({...base,evidence_state:"VERIFIED_CURRENT",evidence:"來源文件確認此案例的條件與日期。",source_date:"2026-08-25"},[]);
-check("verified article output",!good.blocked && good.body.includes(rules.BRAND_CTA) && good.checks.brand_pov==="PASS");
+check("freshness is advisory",preflight.runPreflight({...base,body:"馬來西亞政策整理"},[]).freshness_warning==="REVIEW_RECOMMENDED");
+const good=engine.buildArticle(base,[]);
+check("article output",!good.blocked && good.body.includes(rules.BRAND_CTA) && good.checks.brand_pov==="PASS");
 const requiredUi=["生成文章","防 AI 檢查","重新生成不同 DNA","儲存文章","複製","下載","素材庫","內容月曆","成效回填"];
 check("required UI",requiredUi.every(x=>text.includes(x)),requiredUi.filter(x=>!text.includes(x)).join(","));
 checks.forEach(c=>console.log(`${c.pass?"PASS":"FAIL"} ${c.name}${c.detail?` — ${c.detail}`:""}`));
 const failed=checks.filter(c=>!c.pass);console.log(`\n${checks.length-failed.length}/${checks.length} PASS`);process.exit(failed.length?1:0);
-

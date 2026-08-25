@@ -23,11 +23,9 @@ export function runPreflight(input, recent=[]) {
   const similarity_status = maxSimilarity >= SIMILARITY_THRESHOLDS.fail ? "FAIL" : maxSimilarity >= SIMILARITY_THRESHOLDS.warn ? "WARN" : "PASS";
   const cliches = CLICHES.filter(word=>text.includes(word));
   const fabricated = FABRICATED_PATTERNS.filter(rule=>rule.test(text)).map(rule=>rule.source);
-  const evidence_gate = input.evidence_state === "VERIFIED_CURRENT" ? "PASS" : "EVIDENCE_REQUIRED";
-  const fabricated_story_gate = fabricated.length && input.evidence_state !== "VERIFIED_CURRENT" ? "BLOCK: FABRICATED_REAL_WORLD_EVENT" : "PASS";
-  const freshness_warning = FRESH_TOPICS.test(`${input.topic||""} ${text}`) && (!input.source_date || input.evidence_state !== "VERIFIED_CURRENT") ? "EVIDENCE_REQUIRED" : "PASS";
+  const fabricated_story_gate = fabricated.length ? "BLOCK: FABRICATED_REAL_WORLD_EVENT" : "PASS";
+  const freshness_warning = FRESH_TOPICS.test(`${input.topic||""} ${text}`) ? "REVIEW_RECOMMENDED" : "PASS";
   const brand_pov = /CCPS.*(判斷|不建議|選案|盤點|流程)/s.test(text) ? "PASS" : "FAIL: NO_BRAND_POINT_OF_VIEW";
   const trade_off = /(優點.*缺點|適合.*不適合|機會.*成本|短期.*長期)/s.test(text) ? "PASS" : "WARN: SALESY_ONE_SIDED_CONTENT";
-  return {evidence_gate,fabricated_story_gate,freshness_warning,similarity_score:Number(maxSimilarity.toFixed(3)),similarity_status,cliche_warnings:cliches,brand_pov,trade_off};
+  return {fabricated_story_gate,freshness_warning,similarity_score:Number(maxSimilarity.toFixed(3)),similarity_status,cliche_warnings:cliches,brand_pov,trade_off};
 }
-
