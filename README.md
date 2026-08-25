@@ -10,6 +10,29 @@ python3 -m http.server 8080
 
 瀏覽 `http://127.0.0.1:8080/`。API Key 只存在當前分頁記憶體，不寫入 localStorage；V1 的確定性文章產生、檢查、素材、品牌、Voice、月曆及 Tracking 不需付費 API。
 
+## CCPS 官網官方素材
+
+- `data/ccps-official-source-registry.json`：完整官網來源清單、採用狀態與排除原因。
+- `data/ccps-official-materials.json`：去重後的繁中可用素材；每筆保留來源、更新日、Evidence 與 Freshness。
+- `scripts/import-ccps-website.mjs`：遵守官網 `Crawl-Delay: 20` 的低頻率快照匯入器。
+- 官方素材以靜態唯讀資料載入；只有使用者選取「加入我的素材庫」時才寫入該瀏覽器的 localStorage。
+
+## 馬來西亞置產寶典知識庫
+
+- `data/ccps-malaysia-guide-knowledge.json`：完整保存 V2.0 前言、32 章與附錄，共 34 章 Markdown 與章節 metadata。
+- `data/ccps-malaysia-guide-materials.json`：每章一筆可搜尋信任內容素材，與官網 141 筆素材合併為 175 筆來源庫。
+- `scripts/import-malaysia-guide.mjs`：依來源站章節清單建立本機快照；不下載圖片與樣式。
+- `scripts/validate-guide-knowledge.mjs`：驗證章數、內容完整性、來源與 Evidence/Freshness 邊界。
+- 寶典內容一律標記 `MEMORY_DERIVED`。法律、稅務、政策、匯率、重大建設與市場數據須另查權威來源，不能直接視為 `VERIFIED_CURRENT`。
+
+## 本機文件與品牌視覺來源庫
+
+- `data/ccps-local-source-registry.json`：7 個公開候選來源的別名、SHA-256、可見範圍與證據狀態；不保存本機絕對路徑。
+- `data/ccps-local-knowledge.json`：2 份公開候選研究／指南文件的完整文字快照；PDF 保留頁碼。
+- `data/ccps-local-materials.json`：10 筆章節、頁面與視覺素材，合併後來源庫共 185 筆。
+- `assets/trust-library/`（信任內容品牌視覺）：5 張使用者提供圖片，複製後雜湊與來源一致。
+- 2026-08-25 人工確認：2 份內部文件、1 份舊版政策文件及私人雲端資料完全排除於 Repository、資料檔與網站載入流程之外。
+
 ## 來源證據
 
 - Source: `jay0935927053-sudo/uncle-house-ai-tool`
@@ -17,4 +40,3 @@ python3 -m http.server 8080
 - Inventory HEAD: `3e73dc96c3e3cf22e9e8d5d90c186551e6140888`
 - 承接：分頁暫存 API Key 流程、內容 UI、素材庫、品牌設定、月曆、多平台改寫、Preflight、Project History、Content Tracking
 - 不承接：教育模組、舊品牌 CTA、CRM／成交漏斗、非 CCPS Storyboard、UHOS 功能與任何舊 localStorage key
-

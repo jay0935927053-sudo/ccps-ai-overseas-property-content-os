@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-08-25T14:38:46.523303+00:00",
+  "accepted_count": 7,
+  "sources": [
+    {
+      "id": "local-doc-01",
+      "kind": "document",
+      "title": "2026-malaysia-immigration-education-report (1)",
+      "library_source": "CCPS 移居教育研究",
+      "source_ref": "ccps-source:2026-malaysia-immigration-education-report (1).md",
+      "sha256": "8ebf33da17fcdac63fd57545ff4f7ee6804833b22311a8adbf113d7d58bccfef",
+      "bytes": 10545,
+      "modified_date": "2026-08-22",
+      "visibility": "public_candidate",
+      "status": "ADAPTER",
+      "evidence_state": "MEMORY_DERIVED"
+    },
+    {
+      "id": "local-doc-02",
+      "kind": "document",
+      "title": "大馬置產留學與商務設立指南",
+      "library_source": "CCPS 置產留學商務指南",
+      "source_ref": "ccps-source:大馬置產留學與商務設立指南.pdf",
+      "sha256": "61d690ed247933938c6f2658b6a54a1c0d15cfc1716da300be660f4691496921",
+      "bytes": 240821,
+      "modified_date": "2026-08-22",
+      "visibility": "public_candidate",
+      "status": "ADAPTER",
+      "evidence_state": "MEMORY_DERIVED"
+    },
+    {
+      "id": "local-visual-01",
+      "kind": "visual",
+      "title": "大馬跨境投資 AI 轉型之路",
+      "library_source": "CCPS 品牌視覺",
+      "source_ref": "ccps-source:大馬跨境投資AI轉型之路.png",
+      "asset_path": "assets/trust-library/大馬跨境投資AI轉型之路.png",
+      "sha256": "ff30d1e4005b7cc0bfd43a0332b6892ec4d06f162f9000fc3ed9637252eca17e",
+      "bytes": 5982999,
+      "modified_date": "2026-08-22",
+      "visibility": "public_candidate",
+      "status": "REUSE",
+      "evidence_state": "MEMORY_DERIVED"
+    },
+    {
+      "id": "local-visual-02",
+      "kind": "visual",
+      "title": "大馬置產大百科互動測試",
+      "library_source": "CCPS 品牌視覺",
+      "source_ref": "ccps-source:ccps_quiz_promo_card.jpg",
+      "asset_path": "assets/trust-library/ccps_quiz_promo_card.jpg",
+      "sha256": "2cf04cab1578f993075317cdad86e87fcdca79d58cc5d36d2047ede5901b92ca",
+      "bytes": 156704,
+      "modified_date": "2026-08-22",
+      "visibility": "public_candidate",
+      "status": "REUSE",
+      "evidence_state": "MEMORY_DERIVED"
+    },
+    {
+      "id": "local-visual-03",
+      "kind": "visual",
+      "title": "大馬國際學校選校指南",
+      "library_source": "CCPS 品牌視覺",
+      "source_ref": "ccps-source:ccps_international_school_promo_card.jpg",
+      "asset_path": "assets/trust-library/ccps_international_school_promo_card.jpg",
+      "sha256": "1979f0f0172dcbe45c20d6f3d06dbd9137133c3908e4df526d43fcbee6a6174e",
+      "bytes": 198741,
+      "modified_date": "2026-08-22",
+      "visibility": "public_candidate",
+      "status": "REUSE",
+      "evidence_state": "MEMORY_DERIVED"
+    },
+    {
+      "id": "local-visual-04",
+      "kind": "visual",
+      "title": "大馬置產避坑指南",
+      "library_source": "CCPS 品牌視覺",
+      "source_ref": "ccps-source:ccps_guide_promo_card.jpg",
+      "asset_path": "assets/trust-library/ccps_guide_promo_card.jpg",
+      "sha256": "35314d46d4d967186d422fffd72eac267572bec12835711556ec674003fd330a",
+      "bytes": 150258,
+      "modified_date": "2026-08-22",
+      "visibility": "public_candidate",
+      "status": "REUSE",
+      "evidence_state": "MEMORY_DERIVED"
+    },
+    {
+      "id": "local-visual-05",
+      "kind": "visual",
+      "title": "CCPS LINE 圖文選單示意",
+      "library_source": "CCPS 品牌視覺",
+      "source_ref": "ccps-source:ccps_line_rich_menu_mockup.jpg",
+      "asset_path": "assets/trust-library/ccps_line_rich_menu_mockup.jpg",
+      "sha256": "77226b05776567a839bbaf2dcf98743a9449a0ba41c6baf6027f9ca0f42f20c0",
+      "bytes": 129233,
+      "modified_date": "2026-08-22",
+      "visibility": "public_candidate",
+      "status": "REUSE",
+      "evidence_state": "MEMORY_DERIVED"
+    }
+  ],
+  "sealed_sources": {
+    "status": "EXCLUDED_FROM_REPOSITORY",
+    "reason": "人工確認封存；公開匯入器不讀取、不列名、不生成內容",
+    "internal_documents": 2,
+    "legacy_documents": 1,
+    "cloud_private_items": "DO_NOT_USE"
+  }
+}

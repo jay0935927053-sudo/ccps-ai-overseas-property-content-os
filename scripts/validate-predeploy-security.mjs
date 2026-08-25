@@ -1,0 +1,20 @@
+import fs from "node:fs";
+import path from "node:path";
+import process from "node:process";
+import { execFileSync } from "node:child_process";
+
+const root=path.resolve(import.meta.dirname,"..");
+const tracked=execFileSync("git",["ls-files","-z"],{cwd:root}).toString().split("\0").filter(Boolean);
+const textFiles=tracked.filter(file=>!file.startsWith("assets/")&&!file.endsWith("validate-predeploy-security.mjs")&&!file.endsWith("validate-local-trust-sources.mjs"));
+const contents=textFiles.map(file=>[file,fs.readFileSync(path.join(root,file),"utf8")]);
+const joined=contents.map(([,text])=>text).join("\n");
+const dataFiles=["data/ccps-local-source-registry.json","data/ccps-local-knowledge.json","data/ccps-local-materials.json"];
+const publicData=dataFiles.map(file=>fs.readFileSync(path.join(root,file),"utf8")).join("\n");
+const checks=[];const check=(name,pass,detail="")=>checks.push({name,pass:Boolean(pass),detail});
+check("no high confidence secrets",!/sk-[A-Za-z0-9_-]{16,}|ghp_[A-Za-z0-9]{20,}|AIza[0-9A-Za-z_-]{20,}/.test(joined));
+check("no user absolute paths",!contents.some(([,text])=>text.includes("/Users/")));
+check("no cloud account paths",!contents.some(([,text])=>text.includes("GoogleDrive-")||/@gmail\.com/.test(text)));
+check("sealed material absent from public data",!publicData.includes('"visibility": "internal_only"')&&JSON.parse(fs.readFileSync(path.join(root,"data/ccps-local-source-registry.json"))).sealed_sources.status==="EXCLUDED_FROM_REPOSITORY");
+check("public material count",JSON.parse(fs.readFileSync(path.join(root,"data/ccps-local-materials.json"))).count===10);
+check("duplicate copies untracked",!tracked.some(file=>/ 2\.(jpg|png)$/i.test(file)));
+checks.forEach(x=>console.log(`${x.pass?"PASS":"FAIL"} ${x.name}${x.detail?` — ${x.detail}`:""}`));const failed=checks.filter(x=>!x.pass);console.log(`\n${checks.length-failed.length}/${checks.length} PASS`);process.exit(failed.length?1:0);

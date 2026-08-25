@@ -1,7 +1,46 @@
 {
   "task_id": "CCPS-AI-CONTENT-OS-V1-FORK-INVENTORY-001",
   "project": "CCPS AI Overseas Property Content OS",
-  "status": "DEPLOYED_ACCEPTED",
+  "status": "PREDEPLOY_SECURITY_VERIFIED_WAITING_HUMAN_PUSH_DEPLOY",
+  "active_task": "CCPS-LOCAL-TRUST-SOURCES-V1-001",
+  "official_material_library": {
+    "source": "https://ccps-my.com/",
+    "fetched_at": "2026-08-25",
+    "sitemap_unique_urls": 219,
+    "registry_records": 220,
+    "reusable_traditional_chinese_materials": 141,
+    "validator": "9/9 PASS",
+    "browser_smoke": "7/7 PASS",
+    "published": false
+  },
+  "malaysia_guide_knowledge_library": {
+    "source": "https://ccps-malaysia-property-guide.netlify.app/",
+    "fetched_at": "2026-08-25",
+    "chapters": 34,
+    "reusable_materials": 34,
+    "evidence_state": "MEMORY_DERIVED",
+    "validator": "9/9 PASS",
+    "browser_smoke": "7/7 PASS",
+    "published": false
+  },
+  "local_trust_source_library": {
+    "accepted_sources": 7,
+    "knowledge_documents": 2,
+    "reusable_materials": 10,
+    "visual_assets": 5,
+    "sealed_sources_excluded": 3,
+    "combined_library_materials": 185,
+    "evidence_state": "MEMORY_DERIVED",
+    "validator": "13/13 PASS",
+    "browser_smoke": "9/9 PASS at 390x844",
+    "cloud_privacy_gate": "EXCLUDED_FROM_REPOSITORY",
+    "published": false,
+    "human_review": {
+      "confirmed_at": "2026-08-25",
+      "sealed_sources": "EXCLUDED_FROM_REPOSITORY",
+      "publication_rule": "REVERIFY_WITH_AUTHORITATIVE_CURRENT_SOURCES_BEFORE_USE"
+    }
+  },
   "source": {"repository":"jay0935927053-sudo/uncle-house-ai-tool","branch":"main","head_sha":"3e73dc96c3e3cf22e9e8d5d90c186551e6140888"},
   "validator": "node scripts/validate-ccps-os.mjs",
   "acceptance": {
@@ -15,8 +54,8 @@
     "deployment": "https://jay0935927053-sudo.github.io/ccps-ai-overseas-property-content-os/",
     "live_smoke_test": "PASS"
   },
-  "on_pass": "人工確認建立正式獨立 GitHub Repository 與 Deploy",
+  "on_pass": "等待人工確認 Push 與 Deploy",
   "on_fail": "AUTO_REPAIR_FAILED_SCOPE_MAX_2_THEN_STOP",
-  "external_actions_authorized": true,
-  "stop_reason": "Repository creation, push, deployment, and live verification completed; STOP"
+  "external_actions_authorized": false,
+  "stop_reason": "Predeploy security verified locally; Push and Deploy require explicit human approval"
 }

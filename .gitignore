@@ -2,4 +2,4 @@
 .env.local
 .DS_Store
 output/
-
+assets/trust-library/* 2.*

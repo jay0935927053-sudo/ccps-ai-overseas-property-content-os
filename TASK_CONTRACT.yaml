@@ -1,6 +1,6 @@
 task_id: "CCPS-AI-CONTENT-OS-V1-FORK-INVENTORY-001"
 milestone: "CCPS AI Overseas Property Content OS V1 local acceptance"
-active_repository: "/Users/uunclehouse77/Documents/ChatGPT/ccps自媒體工廠"
+active_repository: "."
 formal_source: "CCPS_AI_OVERSEAS_PROPERTY_CONTENT_OS_V1_CODEX.md"
 controller_model: "SOL_CONTROLLER"
 execution_route: "bounded local implementation plus deterministic validators"

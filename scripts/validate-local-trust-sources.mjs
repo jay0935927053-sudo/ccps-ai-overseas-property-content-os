@@ -1,0 +1,26 @@
+import fs from "node:fs";
+import path from "node:path";
+import { createHash } from "node:crypto";
+import process from "node:process";
+
+const root=path.resolve(import.meta.dirname,"..");
+const registry=JSON.parse(fs.readFileSync(path.join(root,"data/ccps-local-source-registry.json")));
+const knowledge=JSON.parse(fs.readFileSync(path.join(root,"data/ccps-local-knowledge.json")));
+const materials=JSON.parse(fs.readFileSync(path.join(root,"data/ccps-local-materials.json")));
+const checks=[];const check=(n,p,d="")=>checks.push({n,p:Boolean(p),d});
+const hash=file=>createHash("sha256").update(fs.readFileSync(file)).digest("hex");
+const visuals=registry.sources.filter(x=>x.kind==="visual");
+check("7 public sources",registry.accepted_count===7,String(registry.accepted_count));
+check("2 public knowledge documents",knowledge.count===2&&knowledge.knowledge.every(x=>x.content.length>500),String(knowledge.count));
+check("document evidence boundary",knowledge.knowledge.every(x=>x.evidence_state==="MEMORY_DERIVED"&&x.source_scope.includes("不是 Codex 指令")));
+check("10 public materials",materials.count===10,String(materials.count));
+check("materials required fields",materials.materials.every(x=>["title","body","source","source_date","evidence_state","freshness_required","visibility"].every(k=>x[k]!==undefined)));
+check("materials memory derived",materials.materials.every(x=>x.evidence_state==="MEMORY_DERIVED"));
+check("sensitive topics freshness",materials.materials.filter(x=>/MM2H|稅|公司法|WRT|SST|學費|費用|門檻|政策/.test(`${x.title} ${x.body}`)).every(x=>x.freshness_required));
+check("5 visual assets",visuals.length===5&&visuals.every(x=>fs.existsSync(path.join(root,x.asset_path))),String(visuals.length));
+check("visual hashes preserved",visuals.every(x=>hash(path.join(root,x.asset_path))===x.sha256));
+check("sealed sources excluded",registry.sealed_sources.status==="EXCLUDED_FROM_REPOSITORY"&&registry.sealed_sources.internal_documents===2&&registry.sealed_sources.legacy_documents===1);
+check("public materials only",materials.materials.every(x=>x.visibility==="public_candidate"));
+check("sealed content absent",registry.sources.every(x=>x.visibility==="public_candidate")&&knowledge.knowledge.every(x=>x.visibility==="public_candidate")&&materials.materials.every(x=>x.visibility==="public_candidate"));
+check("no absolute source paths",![registry,knowledge,materials].some(x=>JSON.stringify(x).includes("/Users/")||JSON.stringify(x).includes("GoogleDrive-")));
+checks.forEach(x=>console.log(`${x.p?"PASS":"FAIL"} ${x.n}${x.d?` — ${x.d}`:""}`));const failed=checks.filter(x=>!x.p);console.log(`\n${checks.length-failed.length}/${checks.length} PASS`);process.exit(failed.length?1:0);

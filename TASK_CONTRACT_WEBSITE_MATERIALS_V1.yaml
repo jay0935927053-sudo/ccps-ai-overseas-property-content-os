@@ -1,0 +1,39 @@
+task_id: "CCPS-OFFICIAL-WEBSITE-MATERIAL-LIBRARY-V1-001"
+milestone: "CCPS 官網素材庫匯入 V1"
+active_repository: "."
+formal_source: "https://ccps-my.com/ sitemap and public WordPress REST API"
+controller_model: "SOL_CONTROLLER"
+execution_route: "deterministic low-frequency importer"
+status: "HUMAN_GATE"
+inventory:
+  reuse: ["現有 CCPS 素材庫 UI", "Evidence State", "Freshness Gate", "ccpsOsMaterialsV1"]
+  adapter: ["官方官網唯讀素材目錄", "單筆加入個人素材庫"]
+  do_not_use: ["英文與簡體重複頁", "404、測試與 Elementor 模板", "表單、隱私條款與技術頁", "重複正文"]
+  missing: ["官網低頻率匯入器", "來源 Registry", "官方素材搜尋與分類 UI", "官網素材 Validator"]
+frozen_scope:
+  inputs: ["page-sitemap.xml", "post-sitemap.xml", "公開 WordPress REST API"]
+  outputs: ["data/ccps-official-materials.json", "data/ccps-official-source-registry.json", "官方官網素材 UI"]
+  allowed_changes: ["本 Repository 內 importer、資料、UI、validator 與狀態檔"]
+  forbidden_changes: ["修改 ccps-my.com", "抓取表單資料", "收集個資", "下載圖片", "自動生成或發布文章", "Secrets", "付費 API"]
+acceptance_checks:
+  - "所有 sitemap Page/Post URL 均進入 Registry"
+  - "每筆可用素材具有 title、body、source、source_date、evidence_state、freshness_required"
+  - "Evidence State 固定 VERIFIED_CURRENT，且含擷取日期"
+  - "排除翻譯、模板、法務、表單與重複正文"
+  - "官方素材可搜尋、篩選及單筆加入既有素材庫"
+validators: ["node scripts/validate-ccps-os.mjs", "node scripts/validate-official-materials.mjs", "browser smoke test"]
+repair_policy:
+  max_passes: 2
+  successful_steps_are_cached: true
+  paid_execution: false
+on_pass: "人工檢視官方素材分類與第一批信任內容選題"
+on_fail: "AUTO_REPAIR only failed scope, maximum two passes; then STOP"
+human_gate: ["Push", "Deploy", "正式發布內容"]
+state_writeback: "CURRENT_STATE.json"
+evidence:
+  - "公開 sitemap：219 個唯一網址"
+  - "Source Registry：220 筆，含 1 筆 sitemap/API mismatch 記錄"
+  - "去重後繁中官方素材：141 筆"
+  - "既有 V1 regression：25/25 PASS"
+  - "官方素材 validator：9/9 PASS"
+  - "官方素材 browser smoke：7/7 PASS at 390px"

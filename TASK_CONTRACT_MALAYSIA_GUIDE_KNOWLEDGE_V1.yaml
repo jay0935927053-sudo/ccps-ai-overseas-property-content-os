@@ -1,0 +1,34 @@
+task_id: "CCPS-MALAYSIA-GUIDE-KNOWLEDGE-V1-001"
+milestone: "馬來西亞置產寶典 V2.0 素材與知識庫"
+active_repository: "."
+formal_source: "https://ccps-malaysia-property-guide.netlify.app/"
+controller_model: "SOL_CONTROLLER"
+execution_route: "deterministic static-site importer"
+status: "VERIFIED_WAITING_HUMAN_REVIEW"
+inventory:
+  reuse: ["官方官網素材 Registry", "素材搜尋與單筆加入 UI", "Evidence/Freshness Gates"]
+  adapter: ["34 章 Markdown 知識庫", "每章信任內容素材", "多來源搜尋"]
+  do_not_use: ["圖片與樣式資產", "未經獨立查證的政策、稅務、價格與市場數字作為確定事實"]
+  missing: []
+frozen_scope:
+  inputs: ["首頁", "assets/chapters.js", "content/*.md"]
+  outputs: ["data/ccps-malaysia-guide-knowledge.json", "data/ccps-malaysia-guide-materials.json", "多來源素材 UI"]
+  allowed_changes: ["本 Repository 內 importer、資料、UI、validator 與狀態檔"]
+  forbidden_changes: ["修改來源網站", "下載或重發布圖片", "自動發布文章", "把指南內容當成獨立官方證據", "Secrets", "付費 API"]
+acceptance_checks: ["34/34 章完整", "章節 metadata 與 Markdown 非空", "指南素材皆標記 MEMORY_DERIVED", "時效章節有 Freshness Gate", "搜尋及單筆加入既有素材庫"]
+validators: ["node scripts/validate-guide-knowledge.mjs", "node scripts/validate-official-materials.mjs", "browser smoke test"]
+repair_policy:
+  max_passes: 2
+  successful_steps_are_cached: true
+  paid_execution: false
+on_pass: "人工檢視知識庫分類與第一批跨來源信任內容選題"
+on_fail: "AUTO_REPAIR only failed scope, maximum two passes; then STOP"
+human_gate: ["Push", "Deploy", "正式發布內容"]
+state_writeback: "CURRENT_STATE.json"
+acceptance_evidence:
+  chapter_validator: "9/9 PASS"
+  regression_validator: "25/25 PASS"
+  official_library_validator: "9/9 PASS"
+  mobile_browser_smoke: "7/7 PASS at 390x844"
+  imported_chapters: 34
+  combined_trust_materials: 175
