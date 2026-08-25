@@ -1,7 +1,7 @@
 task_id: "CCPS-AI-DIRECTOR-HOME-LINK-V1-001"
 milestone: "首頁 AI Director 快速入口"
 active_repository: "."
-status: "VERIFIED_WAITING_HUMAN_PUSH_DEPLOY"
+status: "ACCEPTED_DEPLOYED"
 inventory:
   reuse: ["既有快速工作平台", "外部連結白名單", "首頁快速工作入口"]
   adapter: ["AI Director 首頁按鈕"]
@@ -19,4 +19,6 @@ state_writeback: "CURRENT_STATE.json"
 acceptance_evidence:
   deterministic_validator: "76/76 PASS"
   browser_acceptance: "52/52 PASS at 390x844"
+  github_pages_workflow: "pages-build-deployment 32895951679 PASS"
+  public_smoke: "PASS"
   paid_api_called: false

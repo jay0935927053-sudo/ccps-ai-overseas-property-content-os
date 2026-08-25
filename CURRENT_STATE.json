@@ -1,7 +1,7 @@
 {
   "task_id": "CCPS-AI-DIRECTOR-HOME-LINK-V1-001",
   "project": "CCPS AI Overseas Property Content OS",
-  "status": "VERIFIED_WAITING_HUMAN_PUSH_DEPLOY",
+  "status": "ACCEPTED_DEPLOYED",
   "active_task": "CCPS-AI-DIRECTOR-HOME-LINK-V1-001",
   "official_material_library": {
     "source": "https://ccps-my.com/",
@@ -49,13 +49,13 @@
     "viewport": "390x844",
     "paid_api_called": false,
     "repository": "https://github.com/jay0935927053-sudo/ccps-ai-overseas-property-content-os",
-    "deployed_commit": "77aec135290aac8f8c27b8ced1046dd7c71b062d",
-    "github_pages_workflow": "pages-build-deployment 32867152939 PASS",
+    "deployed_commit": "3ca11744ad56e6dca58319bc48e47e3e8a7adb88",
+    "github_pages_workflow": "pages-build-deployment 32895951679 PASS",
     "deployment": "https://jay0935927053-sudo.github.io/ccps-ai-overseas-property-content-os/",
-    "live_smoke_test": "PASS (2026-08-26: public page contains material library Chinese UI and fixed brand CTA)"
+    "live_smoke_test": "PASS (2026-08-26: public app.js and link allowlist contain homepage AI Director at uhos-ai-director.unclehouse.chatgpt.site)"
   },
-  "on_pass": "等待人工確認 Push 與 Deploy",
+  "on_pass": "STOP",
   "on_fail": "AUTO_REPAIR_FAILED_SCOPE_MAX_2_THEN_STOP",
-  "external_actions_authorized": false,
-  "stop_reason": "AI Director moved from the video selector to the homepage and its URL updated; Push and Deploy require explicit human approval"
+  "external_actions_authorized": true,
+  "stop_reason": "AI Director homepage link deployed and verified on GitHub Pages"
 }
