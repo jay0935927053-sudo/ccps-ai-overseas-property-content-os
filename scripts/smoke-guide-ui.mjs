@@ -15,6 +15,7 @@ check("independent ads links visible",await page.locator("#adsLinks").isVisible(
 check("3 CCPS company choices",await page.locator("#companySiteLink option").count()===3);
 check("CCPS official site",await page.inputValue("#companySiteLink")==="https://ccps-my.com/");
 check("ads manager selection",await page.inputValue("#adsManagerLink")==="https://adsmanager.facebook.com/");
+check("ad operator button",await page.locator("#adOperatorButton").isVisible()&&await page.locator("#adOperatorButton").getAttribute("href")==="https://growth-staging.unclehouse.net/"&&await page.locator("#adOperatorButton").getAttribute("target")==="_blank"&&await page.locator("#adOperatorButton").getAttribute("rel")==="noopener noreferrer");
 check("GPT image link",await page.inputValue("#imageToolLink")==="https://chatgpt.com/");
 check("ChatArt Pro link",await page.inputValue("#videoToolLink")==="https://app.chatartpro.com/");
 check("6 social platform choices",await page.locator("#socialPlatformLink option").count()===6);

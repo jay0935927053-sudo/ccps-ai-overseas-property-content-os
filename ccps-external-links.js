@@ -13,6 +13,9 @@ export const EXTERNAL_LINK_GROUPS = Object.freeze({
   ads: Object.freeze([
     {label:"Meta 廣告投放管理",url:"https://adsmanager.facebook.com/"}
   ]),
+  adOperator: Object.freeze([
+    {label:"廣告投手",url:"https://growth-staging.unclehouse.net/"}
+  ]),
   social: Object.freeze([
     {label:"Facebook｜CCPS",url:"https://www.facebook.com/CcpsmyInvestmentig"},
     {label:"Instagram｜@ccpsmy_investment",url:"https://www.instagram.com/ccpsmy_investment/"},

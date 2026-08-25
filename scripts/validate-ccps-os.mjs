@@ -40,6 +40,7 @@ check("ChatArt Pro link",external.EXTERNAL_LINK_GROUPS.video.some(x=>x.url==="ht
 check("3 CCPS company links",external.EXTERNAL_LINK_GROUPS.company.length===3);
 check("CCPS company link coverage",["https://ccps-my.com/","https://glorious-curiosity-production-964b.up.railway.app/login","https://ccps-airline-webinar.unclehouse.chatgpt.site/admin/leads"].every(url=>external.EXTERNAL_LINK_GROUPS.company.some(x=>x.url===url)));
 check("independent ads manager link",external.EXTERNAL_LINK_GROUPS.ads.length===1&&external.EXTERNAL_LINK_GROUPS.ads[0].url==="https://adsmanager.facebook.com/"&&text.includes('id="adsLinks"'));
+check("ad operator button",external.EXTERNAL_LINK_GROUPS.adOperator.length===1&&external.EXTERNAL_LINK_GROUPS.adOperator[0].url==="https://growth-staging.unclehouse.net/"&&text.includes('id="adOperatorButton"')&&text.includes('rel="noopener noreferrer">廣告投手</a>'));
 check("independent company section",text.includes('id="companyLinks"')&&text.indexOf('id="companyLinks"')<text.indexOf('id="adsLinks"')&&text.indexOf('id="adsLinks"')<text.indexOf('id="quickLinks"'));
 check("6 social links",external.EXTERNAL_LINK_GROUPS.social.length===6);
 check("CCPS social account links",["https://www.facebook.com/CcpsmyInvestmentig","https://www.instagram.com/ccpsmy_investment/","https://www.youtube.com/@ccpsmy-investment","https://www.tiktok.com/zh-Hant-TW/","https://manager.line.biz/account/@392okwmj","https://www.threads.com/@ccpsmy_investment"].every(url=>external.EXTERNAL_LINK_GROUPS.social.some(x=>x.url===url)));

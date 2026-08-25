@@ -9,19 +9,20 @@ frozen_scope:
   outputs: ["獨立 CCPS 公司網站區塊", "獨立廣告投放管理區塊", "原有快速工作入口", "選擇後以新分頁開啟固定白名單連結"]
   preserve: ["Logo", "文章生成", "多平台生成器", "素材庫", "品牌設定", "固定 CTA"]
   forbidden: ["自動登入", "傳送文章或個資", "API 串接", "任意使用者網址", "Push", "Deploy"]
-acceptance_checks: ["CCPS 官網／後台／活動後台三入口獨立區塊", "廣告管理獨立區塊", "GPT 圖片入口", "ChatArt Pro 入口", "FB／IG／YouTube／TikTok／LINE＠／Threads 六平台", "新分頁安全屬性", "手機版無橫向溢位"]
+acceptance_checks: ["CCPS 官網／後台／活動後台三入口獨立區塊", "廣告管理獨立區塊", "廣告投手獨立按鈕", "GPT 圖片入口", "ChatArt Pro 入口", "FB／IG／YouTube／TikTok／LINE＠／Threads 六平台", "新分頁安全屬性", "手機版無橫向溢位"]
 repair_policy: {max_passes: 2, successful_steps_are_cached: true}
 on_pass: "人工確認 Push 與 Deploy"
 on_fail: "AUTO_REPAIR only failed scope, maximum two passes; then STOP"
 human_gate: ["Push", "Deploy"]
 state_writeback: "CURRENT_STATE.json"
 acceptance_evidence:
-  deterministic_validator: "55/55 PASS"
-  mobile_browser_smoke: "32/32 PASS at 390x844"
+  deterministic_validator: "56/56 PASS"
+  mobile_browser_smoke: "33/33 PASS at 390x844"
   image_links: 1
   video_links: 1
   company_links: 3
   ads_links: 1
+  ad_operator_buttons: 1
   social_links: 6
   supplied_account_links_verified: "6/6 HTTP 200"
   safe_new_tab: "PASS"
