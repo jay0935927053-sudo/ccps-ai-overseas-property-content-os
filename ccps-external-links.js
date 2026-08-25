@@ -3,8 +3,10 @@ export const EXTERNAL_LINK_GROUPS = Object.freeze({
     {label:"ChatGPT｜圖片生成",url:"https://chatgpt.com/"}
   ]),
   video: Object.freeze([
-    {label:"ChatArt Pro｜AI 影片生成",url:"https://app.chatartpro.com/"},
-    {label:"房叔 AI Director｜影片生成",url:"https://aidirector-rho.vercel.app/"}
+    {label:"ChatArt Pro｜AI 影片生成",url:"https://app.chatartpro.com/"}
+  ]),
+  aiDirector: Object.freeze([
+    {label:"AI Director",url:"https://uhos-ai-director.unclehouse.chatgpt.site/"}
   ]),
   company: Object.freeze([
     {label:"CCPS 公司官網",url:"https://ccps-my.com/"},

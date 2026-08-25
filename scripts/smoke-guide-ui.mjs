@@ -13,6 +13,7 @@ check("new homepage title",await page.locator("header h1").textContent()==="UHOS
 check("new logo visible",await page.locator('.brand-logo[src="./assets/uncle-house-logo.jpeg"]').isVisible());
 check("self media generator first",await page.locator("#contentGenerator").isVisible()&&await page.locator("#contentGenerator h2").textContent()==="自媒體產生器");
 check("home quick entry visible",await page.locator("#homeQuickEntry").isVisible());
+check("homepage AI Director link",await page.locator("#aiDirectorHomeLink").isVisible()&&await page.locator("#aiDirectorHomeLink").textContent()==="AI Director"&&await page.locator("#aiDirectorHomeLink").getAttribute("href")==="https://uhos-ai-director.unclehouse.chatgpt.site/"&&await page.locator("#aiDirectorHomeLink").getAttribute("target")==="_blank"&&await page.locator("#aiDirectorHomeLink").getAttribute("rel")==="noopener noreferrer");
 check("menu initially closed",await page.locator("#menuDrawer").isHidden()&&await page.locator("#menuToggle").getAttribute("aria-expanded")==="false");
 await page.click("#openQuickMenu");
 check("hamburger menu opens",await page.locator("#menuDrawer").isVisible()&&await page.locator("#menuToggle").getAttribute("aria-expanded")==="true");
@@ -26,9 +27,7 @@ check("ads manager selection",await page.inputValue("#adsManagerLink")==="https:
 check("ad operator button",await page.locator("#adOperatorButton").isVisible()&&await page.locator("#adOperatorButton").getAttribute("href")==="https://growth-staging.unclehouse.net/"&&await page.locator("#adOperatorButton").getAttribute("target")==="_blank"&&await page.locator("#adOperatorButton").getAttribute("rel")==="noopener noreferrer");
 check("GPT image link",await page.inputValue("#imageToolLink")==="https://chatgpt.com/");
 check("ChatArt Pro link",await page.inputValue("#videoToolLink")==="https://app.chatartpro.com/");
-check("2 video generation choices",await page.locator("#videoToolLink option").count()===2);
-await page.selectOption("#videoToolLink",{label:"房叔 AI Director｜影片生成"});
-check("AI Director selection",await page.inputValue("#videoToolLink")==="https://aidirector-rho.vercel.app/");
+check("1 video generation choice",await page.locator("#videoToolLink option").count()===1);
 check("6 social platform choices",await page.locator("#socialPlatformLink option").count()===6);
 await page.selectOption("#socialPlatformLink",{label:"Threads｜@ccpsmy_investment"});
 check("social selection",await page.inputValue("#socialPlatformLink")==="https://www.threads.com/@ccpsmy_investment");

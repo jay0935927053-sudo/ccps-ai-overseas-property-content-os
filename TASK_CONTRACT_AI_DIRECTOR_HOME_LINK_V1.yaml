@@ -1,0 +1,22 @@
+task_id: "CCPS-AI-DIRECTOR-HOME-LINK-V1-001"
+milestone: "首頁 AI Director 快速入口"
+active_repository: "."
+status: "VERIFIED_WAITING_HUMAN_PUSH_DEPLOY"
+inventory:
+  reuse: ["既有快速工作平台", "外部連結白名單", "首頁快速工作入口"]
+  adapter: ["AI Director 首頁按鈕"]
+  do_not_use: ["舊 AI Director Vercel 連結"]
+frozen_scope:
+  outputs: ["首頁 AI Director 直接按鈕", "新網址白名單", "影片下拉選單保留 ChatArt Pro"]
+  preserve: ["公司入口", "廣告入口", "圖片入口", "社群平台入口", "固定品牌 CTA"]
+  forbidden: ["自動登入", "傳送文章或個資", "API 串接", "Push", "Deploy"]
+acceptance_checks: ["首頁按鈕文字為 AI Director", "按鈕網址為指定網址", "新分頁安全屬性", "舊 Vercel 連結不再可選", "手機版無橫向溢位"]
+repair_policy: {max_passes: 2, successful_steps_are_cached: true}
+on_pass: "等待人工確認 Push 與 Deploy"
+on_fail: "AUTO_REPAIR only failed scope, maximum two passes; then STOP"
+human_gate: ["Push", "Deploy"]
+state_writeback: "CURRENT_STATE.json"
+acceptance_evidence:
+  deterministic_validator: "76/76 PASS"
+  browser_acceptance: "52/52 PASS at 390x844"
+  paid_api_called: false

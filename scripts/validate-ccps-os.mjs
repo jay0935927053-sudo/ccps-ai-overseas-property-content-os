@@ -54,7 +54,8 @@ check("video durations 15 30 60",JSON.stringify(multi.VIDEO_DURATIONS)==="[15,30
 check("8+ video styles",multi.VIDEO_STYLES.length>=8);
 check("4 aspect ratios",multi.ASPECT_RATIOS.length>=4);
 check("GPT image link",external.EXTERNAL_LINK_GROUPS.image.some(x=>x.url==="https://chatgpt.com/"));
-check("2 video generation links",external.EXTERNAL_LINK_GROUPS.video.length===2&&["https://app.chatartpro.com/","https://aidirector-rho.vercel.app/"].every(url=>external.EXTERNAL_LINK_GROUPS.video.some(x=>x.url===url)));
+check("ChatArt Pro video link",external.EXTERNAL_LINK_GROUPS.video.length===1&&external.EXTERNAL_LINK_GROUPS.video[0].url==="https://app.chatartpro.com/");
+check("homepage AI Director link",external.EXTERNAL_LINK_GROUPS.aiDirector.length===1&&external.EXTERNAL_LINK_GROUPS.aiDirector[0].label==="AI Director"&&external.EXTERNAL_LINK_GROUPS.aiDirector[0].url==="https://uhos-ai-director.unclehouse.chatgpt.site/"&&text.includes('id="homeQuickEntry"'));
 check("3 CCPS company links",external.EXTERNAL_LINK_GROUPS.company.length===3);
 check("CCPS company link coverage",["https://ccps-my.com/","https://glorious-curiosity-production-964b.up.railway.app/login","https://ccps-airline-webinar.unclehouse.chatgpt.site/admin/leads"].every(url=>external.EXTERNAL_LINK_GROUPS.company.some(x=>x.url===url)));
 check("independent ads manager link",external.EXTERNAL_LINK_GROUPS.ads.length===1&&external.EXTERNAL_LINK_GROUPS.ads[0].url==="https://adsmanager.facebook.com/"&&text.includes('id="adsLinks"'));
