@@ -4,7 +4,7 @@ active_repository: "."
 formal_source: "CURRENT_STATE.json"
 controller_model: "SOL_CONTROLLER"
 execution_route: "DETERMINISTIC_GIT_AND_GITHUB_PAGES"
-status: "DEPLOY_AUTHORIZED"
+status: "ACCEPTED_DEPLOYED"
 authorization:
   source: "使用者直接輸入"
   text: "授權push並部署"
@@ -57,11 +57,14 @@ repair_policy:
   max_passes: 2
   successful_steps_are_cached: true
   paid_execution: false
-on_pass: "寫回 ACCEPTED_DEPLOYED、提交部署證據、Push 並停止"
+on_pass: "STOP"
 on_fail: "只修復部署或驗收失敗範圍，最多兩次；仍失敗則停止"
 human_gate:
   - "已通過：Git Push"
   - "已通過：Deploy"
 evidence:
   - "使用者直接授權 Push 與 Deploy"
+  - "限定範圍 Commit d5db6def7655f2b6b344fc2dabeb9641eb30d2cc 已 Push 到 origin/main"
+  - "GitHub Pages workflow 32906646827 PASS"
+  - "正式頁面 HTTP 與 390x844 DOM 驗收 PASS：頁尾、使用規則 URL、說明會後台按鈕與指定 href 均正確"
 state_writeback: "CURRENT_STATE.json"

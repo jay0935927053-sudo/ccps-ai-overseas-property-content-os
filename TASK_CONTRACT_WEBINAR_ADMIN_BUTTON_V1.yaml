@@ -4,7 +4,7 @@ active_repository: "."
 formal_source: "index.html"
 controller_model: "SOL_CONTROLLER"
 execution_route: "BOUNDED_EXECUTOR"
-status: "VERIFIED_WAITING_HUMAN_PUSH_DEPLOY"
+status: "ACCEPTED_DEPLOYED"
 inventory:
   reuse:
     - "既有功能目錄"
@@ -54,7 +54,7 @@ repair_policy:
   max_passes: 2
   successful_steps_are_cached: true
   paid_execution: false
-on_pass: "寫回本機已驗證候選版並停止，等待人工檢視；Push 與 Deploy 另行授權"
+on_pass: "STOP"
 on_fail: "只修復失敗範圍，最多兩次；仍失敗則停止"
 human_gate:
   - "Git Push"
@@ -64,4 +64,5 @@ evidence:
   - "node scripts/validate-ccps-os.mjs: 77/77 PASS"
   - "scripts/smoke-guide-ui.mjs at 390x844: 53/53 PASS"
   - "手機版按鈕可見，緊接廣告投手，指定 href／target／rel 全部正確，無水平溢出"
+  - "GitHub Pages workflow 32906646827 PASS；正式頁面按鈕與 href 驗收通過"
 state_writeback: "CURRENT_STATE.json"
