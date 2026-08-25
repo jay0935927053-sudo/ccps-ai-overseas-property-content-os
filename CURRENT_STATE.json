@@ -2,7 +2,7 @@
   "task_id": "CCPS-AI-CONTENT-OS-V1-FORK-INVENTORY-001",
   "project": "CCPS AI Overseas Property Content OS",
   "status": "VERIFIED_WAITING_HUMAN_PUSH_DEPLOY",
-  "active_task": "CCPS-MULTIPLATFORM-GENERATOR-V1-001",
+  "active_task": "CCPS-HOMEPAGE-QUICK-LINKS-V1-001",
   "official_material_library": {
     "source": "https://ccps-my.com/",
     "fetched_at": "2026-08-25",
@@ -44,18 +44,18 @@
   "source": {"repository":"jay0935927053-sudo/uncle-house-ai-tool","branch":"main","head_sha":"3e73dc96c3e3cf22e9e8d5d90c186551e6140888"},
   "validator": "node scripts/validate-ccps-os.mjs",
   "acceptance": {
-    "deterministic_validator": "44/44 PASS",
-    "browser_acceptance": "21/21 PASS",
+    "deterministic_validator": "51/51 PASS",
+    "browser_acceptance": "27/27 PASS",
     "viewport": "390x844",
     "paid_api_called": false,
     "repository": "https://github.com/jay0935927053-sudo/ccps-ai-overseas-property-content-os",
-    "deployed_commit": "ea535c2",
-    "github_pages_workflow": "pages-build-deployment #1 PASS",
+    "deployed_commit": "03efbf4",
+    "github_pages_workflow": "pages-build-deployment 32867152939 PASS",
     "deployment": "https://jay0935927053-sudo.github.io/ccps-ai-overseas-property-content-os/",
     "live_smoke_test": "PASS"
   },
   "on_pass": "等待人工確認 Push 與 Deploy",
   "on_fail": "AUTO_REPAIR_FAILED_SCOPE_MAX_2_THEN_STOP",
   "external_actions_authorized": false,
-  "stop_reason": "Multiplatform image prompts, 5-slide IG carousel, YouTube thumbnail, 15/30/60-second scripts and storyboards verified locally; Push and Deploy require explicit human approval"
+  "stop_reason": "Homepage GPT image, ChatArt Pro video and six social platform quick links verified locally; Push and Deploy require explicit human approval"
 }

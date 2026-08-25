@@ -2,13 +2,17 @@ import { BRAND_CTA, CONTENT_CATEGORIES, CONTENT_ROLES, EVIDENCE_STATES, HOOK_TYP
 import { BRAND_FIELD_OPTIONS } from "./ccps-brand-options.js";
 import { buildArticle, platformRewrite, rotateDna } from "./ccps-content-engine.js";
 import { ASPECT_RATIOS, PLATFORM_ASSET_TYPES, VIDEO_DURATIONS, VIDEO_STYLES, generatePlatformAsset } from "./ccps-multiplatform-engine.js";
+import { EXTERNAL_LINK_GROUPS, isApprovedExternalUrl } from "./ccps-external-links.js";
 import { runPreflight } from "./ccps-preflight.js";
 import { readStore, writeStore } from "./ccps-storage.js";
 const $=id=>document.getElementById(id); let current=null; let officialMaterials=[];
 const fill=(id,items)=>$(id).innerHTML=items.map(x=>`<option>${x}</option>`).join("");
+const fillLinks=(id,items)=>$(id).replaceChildren(...items.map(item=>new Option(item.label,item.url)));
 fill("category",CONTENT_CATEGORIES);fill("contentRole",CONTENT_ROLES);fill("hookType",HOOK_TYPES);fill("narrativeType",NARRATIVE_TYPES);fill("materialType",MATERIAL_TYPES);fill("materialEvidence",EVIDENCE_STATES);
 fill("platformAssetType",PLATFORM_ASSET_TYPES);fill("videoDuration",VIDEO_DURATIONS.map(x=>`${x} 秒`));fill("videoStyle",VIDEO_STYLES);fill("aspectRatio",ASPECT_RATIOS);
+fillLinks("imageToolLink",EXTERNAL_LINK_GROUPS.image);fillLinks("videoToolLink",EXTERNAL_LINK_GROUPS.video);fillLinks("socialPlatformLink",EXTERNAL_LINK_GROUPS.social);
 Object.entries(BRAND_FIELD_OPTIONS).forEach(([id,options])=>fill(id,options));
+document.querySelectorAll("[data-open-link]").forEach(button=>button.onclick=()=>{const url=$(button.dataset.openLink).value;if(isApprovedExternalUrl(url))window.open(url,"_blank","noopener,noreferrer")});
 document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.id===b.dataset.tab));document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("primary",x===b));renderAll()});
 const val=id=>$(id).value.trim();
 function articleForm(){return {topic:val("topic"),category:val("category"),content_role:val("contentRole"),hook_type:val("hookType"),narrative_type:val("narrativeType"),visual_type:val("visualType"),CTA_type:BRAND_CTA,comment_question:val("commentQuestion"),goal:val("goal")}}

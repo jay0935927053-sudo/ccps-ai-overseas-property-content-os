@@ -9,6 +9,15 @@ const checks = [];
 const check = (name, pass, detail = "") => checks.push({ name, pass: Boolean(pass), detail });
 
 await page.goto("http://127.0.0.1:4173/", { waitUntil: "networkidle" });
+check("quick links visible",await page.locator("#quickLinks").isVisible());
+check("GPT image link",await page.inputValue("#imageToolLink")==="https://chatgpt.com/");
+check("ChatArt Pro link",await page.inputValue("#videoToolLink")==="https://app.chatartpro.com/");
+check("6 social platform choices",await page.locator("#socialPlatformLink option").count()===6);
+await page.selectOption("#socialPlatformLink",{label:"Threads 首頁"});
+check("social selection",await page.inputValue("#socialPlatformLink")==="https://www.threads.net/");
+await page.evaluate(()=>{window.__openedLink=null;window.open=(url,target,features)=>{window.__openedLink={url,target,features}}});
+await page.click('[data-open-link="socialPlatformLink"]');
+check("safe selected link open",await page.evaluate(()=>window.__openedLink?.url==="https://www.threads.net/"&&window.__openedLink?.target==="_blank"&&window.__openedLink?.features==="noopener,noreferrer"));
 check("article evidence fields absent",await page.locator("#evidenceState,#sourceDate,#evidence").count()===0);
 await page.click("#generate");
 check("direct article generation",(await page.textContent("#gate")).includes("PASS"));
