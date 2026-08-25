@@ -13,6 +13,16 @@ check("article evidence fields absent",await page.locator("#evidenceState,#sourc
 await page.click("#generate");
 check("direct article generation",(await page.textContent("#gate")).includes("PASS"));
 check("article output CTA",(await page.textContent("#output")).includes("追蹤ccps家慶佳業"));
+check("header logo visible",await page.locator(".brand-logo").isVisible());
+await page.click('[data-tab="brand"]');
+const brandSelectIds=["brandPosition","brandArea","brandAudience","brandTone","brandPrinciples","brandForbidden","voiceTone","voiceColloquial","voicePerson","voiceWords","voiceForbidden","voiceNever","voicePrinciples","voiceExamples"];
+check("brand selects have 8+ choices",await page.evaluate(ids=>ids.every(id=>document.getElementById(id)?.options.length>=8),brandSelectIds));
+check("brand ending locked",await page.locator("#brandEnding").isDisabled()||await page.locator("#brandEnding").getAttribute("readonly")!==null);
+await page.selectOption("#brandPosition",{index:7});
+await page.selectOption("#voiceTone",{index:7});
+const savedBrandPosition=await page.inputValue("#brandPosition"),savedVoiceTone=await page.inputValue("#voiceTone");
+await page.click("#saveBrand");await page.click("#saveVoice");await page.reload({waitUntil:"networkidle"});await page.click('[data-tab="brand"]');
+check("brand choices persist",await page.inputValue("#brandPosition")===savedBrandPosition&&await page.inputValue("#voiceTone")===savedVoiceTone);
 await page.click('[data-tab="materials"]');
 await page.waitForFunction(() => document.querySelector("#officialSummary")?.textContent?.includes("置產寶典 34"));
 check("combined count", (await page.textContent("#officialSummary")).includes("共 185 筆"));

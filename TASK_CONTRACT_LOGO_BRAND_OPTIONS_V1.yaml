@@ -1,0 +1,26 @@
+task_id: "CCPS-LOGO-BRAND-OPTIONS-V1-001"
+milestone: "首頁 Logo 與品牌人設選項化"
+active_repository: "."
+status: "VERIFIED_WAITING_HUMAN_PUSH_DEPLOY"
+inventory:
+  reuse: ["使用者提供 CCPS 家慶佳業 Logo", "品牌與 Voice localStorage", "固定品牌 CTA"]
+  adapter: ["首頁 Logo 版面", "品牌人設選項", "寫作指紋選項", "舊自訂值相容"]
+frozen_scope:
+  outputs: ["assets/ccps-logo.jpg", "ccps-brand-options.js", "首頁 Logo", "14 個可配置欄位各至少 8 選項"]
+  preserve: ["固定結尾：追蹤ccps家慶佳業", "既有已儲存品牌設定", "文章與素材功能"]
+  forbidden: ["重生成 Logo", "其他 CTA", "Push", "Deploy", "Secrets"]
+acceptance_checks: ["Logo 雜湊相符", "首頁桌機與手機顯示", "14 欄各至少 8 選項", "固定 CTA 不可修改", "儲存與重載相容"]
+repair_policy: {max_passes: 2, successful_steps_are_cached: true}
+on_pass: "人工確認 Push 與 Deploy"
+on_fail: "AUTO_REPAIR only failed scope, maximum two passes; then STOP"
+human_gate: ["Push", "Deploy"]
+state_writeback: "CURRENT_STATE.json"
+acceptance_evidence:
+  deterministic_validator: "33/33 PASS"
+  mobile_browser_smoke: "16/16 PASS at 390x844"
+  logo_sha256: "bb7b7bb8d71cfd4fab2fb47ef37bc46fc5f7b049e7fc555e3d91fc43a12f460f"
+  configurable_fields: 14
+  choices_per_field: 8
+  total_choices: 112
+  persistence_reload: "PASS"
+  fixed_cta: "追蹤ccps家慶佳業"
