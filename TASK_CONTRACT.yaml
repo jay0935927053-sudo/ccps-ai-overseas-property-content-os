@@ -1,0 +1,38 @@
+task_id: "CCPS-AI-CONTENT-OS-V1-FORK-INVENTORY-001"
+milestone: "CCPS AI Overseas Property Content OS V1 local acceptance"
+active_repository: "/Users/uunclehouse77/Documents/ChatGPT/ccps自媒體工廠"
+formal_source: "CCPS_AI_OVERSEAS_PROPERTY_CONTENT_OS_V1_CODEX.md"
+controller_model: "SOL_CONTROLLER"
+execution_route: "bounded local implementation plus deterministic validators"
+status: "STATE_WRITEBACK"
+source_repository:
+  name: "jay0935927053-sudo/uncle-house-ai-tool"
+  default_branch: "main"
+  head_sha: "3e73dc96c3e3cf22e9e8d5d90c186551e6140888"
+inventory:
+  reuse: ["API Key session-only UI", "content UI patterns", "material library", "brand settings", "calendar", "multi-platform rewrite", "preflight", "project history", "content tracking", "copy and download"]
+  repair: []
+  adapter: ["CCPS brand profile", "CCPS FB Trust Article", "Evidence/Freshness/Fabricated Story gates", "CCPS Content DNA", "CCPS performance tracking"]
+  replace: []
+  archive: []
+  do_not_use: ["real-estate media education", "old personal-brand CTA", "CRM and sales funnel", "unrelated Storyboard", "UHOS modules", "legacy localStorage keys"]
+  missing: ["CCPS Content Role Engine", "Evidence State", "Anti-Fake-Story Gate", "Voice Fingerprint", "Similarity and cliche linters", "CCPS tracking fields"]
+frozen_scope:
+  inputs: ["named source repository at recorded SHA", "CCPS V1 execution specification"]
+  outputs: ["local static web app", "deterministic validator", "browser acceptance evidence"]
+  allowed_changes: ["files inside active_repository"]
+  forbidden_changes: ["source repository", "UHOS", "GitHub remote", "push", "deploy", "paid API", "secrets"]
+acceptance_checks: ["validator exits 0", "13 browser acceptance checks pass", "no old storage namespace or old CTA"]
+validators: ["node scripts/validate-ccps-os.mjs", "Playwright CLI local browser acceptance"]
+repair_policy:
+  max_passes: 2
+  successful_steps_are_cached: true
+  paid_execution: false
+on_pass: "人工確認建立正式獨立 GitHub Repository 與 Deploy"
+on_fail: "AUTO_REPAIR only failed scope, maximum two passes; then STOP"
+human_gate: ["create GitHub repository", "push", "deploy", "GitHub Pages", "paid API", "OAuth", "secrets"]
+evidence:
+  - "node deterministic validator: 25/25 PASS"
+  - "browser acceptance at 390px: 13/13 PASS"
+  - "syntax checks and git diff check: PASS"
+state_writeback: "CURRENT_STATE.json"
