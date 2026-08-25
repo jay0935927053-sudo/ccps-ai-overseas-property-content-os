@@ -1,0 +1,21 @@
+task_id: "CCPS-FOOTER-USAGE-LINK-V1-001"
+milestone: "頁尾著作權與使用規則完整連結"
+active_repository: "."
+status: "VERIFIED_WAITING_HUMAN_PUSH_DEPLOY"
+inventory:
+  reuse: ["既有頁尾版權文字", "既有著作權聲明與使用規則頁"]
+  adapter: ["完整公開網址"]
+frozen_scope:
+  outputs: ["頁尾保留所有權利文字", "指定完整網址的使用規則連結"]
+  preserve: ["既有頁尾樣式", "規則頁內容", "所有首頁功能"]
+  forbidden: ["更動規則頁內容", "Push", "Deploy"]
+acceptance_checks: ["頁尾版權文字完整", "連結文字完整", "連結指向指定網址", "手機版可點擊"]
+repair_policy: {max_passes: 2, successful_steps_are_cached: true}
+on_pass: "等待人工確認 Push 與 Deploy"
+on_fail: "AUTO_REPAIR only failed scope, maximum two passes; then STOP"
+human_gate: ["Push", "Deploy"]
+state_writeback: "CURRENT_STATE.json"
+acceptance_evidence:
+  deterministic_validator: "76/76 PASS"
+  browser_acceptance: "52/52 PASS at 390x844"
+  paid_api_called: false

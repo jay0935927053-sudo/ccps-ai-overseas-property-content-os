@@ -1,0 +1,67 @@
+task_id: "CCPS-WEBINAR-ADMIN-BUTTON-V1-001"
+milestone: "功能目錄新增說明會後台入口"
+active_repository: "."
+formal_source: "index.html"
+controller_model: "SOL_CONTROLLER"
+execution_route: "BOUNDED_EXECUTOR"
+status: "VERIFIED_WAITING_HUMAN_PUSH_DEPLOY"
+inventory:
+  reuse:
+    - "既有功能目錄"
+    - "既有廣告投放管理區"
+    - "既有 button-link 樣式"
+    - "既有新分頁安全屬性"
+  repair: []
+  adapter:
+    - "將正式說明會後台網址加入外部連結白名單與指定位置"
+  replace: []
+  archive: []
+  do_not_use: []
+  missing:
+    - "說明會後台獨立按鈕"
+dependency_boundary:
+  preserved_pending_task: "CCPS-FOOTER-USAGE-LINK-V1-001"
+  rule: "保留既有未 Push／未 Deploy 的頁尾候選版，不覆寫其內容或驗收證據"
+frozen_scope:
+  inputs:
+    - "使用者圈選的廣告投放管理區"
+    - "https://ccps-airline-webinar.unclehouse.chatgpt.site/admin"
+  outputs:
+    - "標示為『說明會後台』的獨立按鈕"
+  allowed_changes:
+    - "index.html 的 adsLinks 按鈕列"
+    - "ccps-external-links.js 的網址白名單"
+    - "兩個既有驗收器的對應斷言"
+    - "本契約與 CURRENT_STATE.json 的驗證狀態"
+  forbidden_changes:
+    - "既有頁尾候選版內容"
+    - "其他功能或連結"
+    - "Secrets"
+    - "正式資料"
+    - "Git Push"
+    - "Merge"
+    - "Deploy"
+acceptance_checks:
+  - "按鈕位於廣告投放管理區，緊接廣告投手按鈕"
+  - "顯示文字為說明會後台"
+  - "連結完全等於指定 /admin 網址"
+  - "以新分頁開啟並包含 noopener noreferrer"
+  - "390x844 手機版可見且無水平溢出"
+validators:
+  - "node scripts/validate-ccps-os.mjs"
+  - "node scripts/smoke-guide-ui.mjs（由本機 HTTP 伺服器提供頁面）"
+repair_policy:
+  max_passes: 2
+  successful_steps_are_cached: true
+  paid_execution: false
+on_pass: "寫回本機已驗證候選版並停止，等待人工檢視；Push 與 Deploy 另行授權"
+on_fail: "只修復失敗範圍，最多兩次；仍失敗則停止"
+human_gate:
+  - "Git Push"
+  - "Merge"
+  - "Deploy"
+evidence:
+  - "node scripts/validate-ccps-os.mjs: 77/77 PASS"
+  - "scripts/smoke-guide-ui.mjs at 390x844: 53/53 PASS"
+  - "手機版按鈕可見，緊接廣告投手，指定 href／target／rel 全部正確，無水平溢出"
+state_writeback: "CURRENT_STATE.json"

@@ -25,6 +25,7 @@ check("3 CCPS company choices",await page.locator("#companySiteLink option").cou
 check("CCPS official site",await page.inputValue("#companySiteLink")==="https://ccps-my.com/");
 check("ads manager selection",await page.inputValue("#adsManagerLink")==="https://adsmanager.facebook.com/");
 check("ad operator button",await page.locator("#adOperatorButton").isVisible()&&await page.locator("#adOperatorButton").getAttribute("href")==="https://growth-staging.unclehouse.net/"&&await page.locator("#adOperatorButton").getAttribute("target")==="_blank"&&await page.locator("#adOperatorButton").getAttribute("rel")==="noopener noreferrer");
+check("webinar admin button",await page.locator("#webinarAdminButton").isVisible()&&await page.locator("#webinarAdminButton").textContent()==="說明會後台"&&await page.locator("#webinarAdminButton").getAttribute("href")==="https://ccps-airline-webinar.unclehouse.chatgpt.site/admin"&&await page.locator("#webinarAdminButton").getAttribute("target")==="_blank"&&await page.locator("#webinarAdminButton").getAttribute("rel")==="noopener noreferrer");
 check("GPT image link",await page.inputValue("#imageToolLink")==="https://chatgpt.com/");
 check("ChatArt Pro link",await page.inputValue("#videoToolLink")==="https://app.chatartpro.com/");
 check("1 video generation choice",await page.locator("#videoToolLink option").count()===1);
@@ -48,7 +49,7 @@ check("IG five slide output",(await page.textContent("#platformAssetOutput")).ma
 await page.selectOption("#platformAssetType",{label:"影片腳本與分鏡"});await page.selectOption("#videoDuration",{label:"60 秒"});await page.click("#generatePlatformAsset");
 const videoOutput=await page.textContent("#platformAssetOutput");
 check("60 second storyboard",videoOutput.includes("【60 秒影片腳本與逐鏡分鏡】")&&videoOutput.includes("分鏡圖提示詞：")&&videoOutput.includes("追蹤ccps家慶佳業"));
-check("copyright footer",(await page.locator("footer").textContent()).includes("© 2026 房叔 UHOS 系統")&&await page.locator("#usageRulesLink").getAttribute("href")==="./usage-rules.html");
+check("copyright footer",(await page.locator("footer").textContent()).includes("© 2026 房叔 UHOS 系統｜保留所有權利")&&await page.locator("#usageRulesLink").getAttribute("href")==="https://jay0935927053-sudo.github.io/ccps-ai-overseas-property-content-os/usage-rules.html");
 await page.click('[data-tab="brand"]');
 const brandSelectIds=["brandPosition","brandArea","brandAudience","brandTone","brandPrinciples","brandForbidden","voiceTone","voiceColloquial","voicePerson","voiceWords","voiceForbidden","voiceNever","voicePrinciples","voiceExamples"];
 check("brand selects have 8+ choices",await page.evaluate(ids=>ids.every(id=>document.getElementById(id)?.options.length>=8),brandSelectIds));

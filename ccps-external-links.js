@@ -19,6 +19,9 @@ export const EXTERNAL_LINK_GROUPS = Object.freeze({
   adOperator: Object.freeze([
     {label:"廣告投手",url:"https://growth-staging.unclehouse.net/"}
   ]),
+  webinarAdmin: Object.freeze([
+    {label:"說明會後台",url:"https://ccps-airline-webinar.unclehouse.chatgpt.site/admin"}
+  ]),
   social: Object.freeze([
     {label:"Facebook｜CCPS",url:"https://www.facebook.com/CcpsmyInvestmentig"},
     {label:"Instagram｜@ccpsmy_investment",url:"https://www.instagram.com/ccpsmy_investment/"},

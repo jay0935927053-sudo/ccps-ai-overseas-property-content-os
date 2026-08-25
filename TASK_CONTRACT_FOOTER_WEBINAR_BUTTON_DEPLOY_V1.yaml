@@ -1,0 +1,67 @@
+task_id: "CCPS-FOOTER-WEBINAR-BUTTON-DEPLOY-V1-001"
+milestone: "發布已驗收頁尾與說明會後台按鈕"
+active_repository: "."
+formal_source: "CURRENT_STATE.json"
+controller_model: "SOL_CONTROLLER"
+execution_route: "DETERMINISTIC_GIT_AND_GITHUB_PAGES"
+status: "DEPLOY_AUTHORIZED"
+authorization:
+  source: "使用者直接輸入"
+  text: "授權push並部署"
+inventory:
+  reuse:
+    - "CCPS-FOOTER-USAGE-LINK-V1-001（76/76 與 52/52 PASS）"
+    - "CCPS-WEBINAR-ADMIN-BUTTON-V1-001（77/77 與 53/53 PASS）"
+  repair: []
+  adapter: []
+  replace: []
+  archive: []
+  do_not_use:
+    - "uhos-ai-director-migration/（不屬於本次發布）"
+  missing: []
+frozen_scope:
+  inputs:
+    - "已驗收頁尾完整使用規則連結"
+    - "已驗收說明會後台按鈕"
+  outputs:
+    - "origin/main 的限定範圍 Commit"
+    - "GitHub Pages 成功部署"
+    - "正式網站頁尾與按鈕驗收證據"
+  allowed_changes:
+    - "CURRENT_STATE.json"
+    - "index.html"
+    - "ccps-external-links.js"
+    - "scripts/validate-ccps-os.mjs"
+    - "scripts/smoke-guide-ui.mjs"
+    - "TASK_CONTRACT_FOOTER_USAGE_LINK_V1.yaml"
+    - "TASK_CONTRACT_WEBINAR_ADMIN_BUTTON_V1.yaml"
+    - "TASK_CONTRACT_FOOTER_WEBINAR_BUTTON_DEPLOY_V1.yaml"
+  forbidden_changes:
+    - "uhos-ai-director-migration/"
+    - "其他未列名檔案"
+    - "Secrets"
+    - "正式資料庫"
+    - "廣告、郵件或其他外部服務"
+acceptance_checks:
+  - "Commit 只包含白名單檔案"
+  - "Push origin/main 成功"
+  - "GitHub Pages workflow 成功"
+  - "正式頁面顯示頁尾完整連結"
+  - "正式頁面顯示說明會後台按鈕且 href 正確"
+validators:
+  - "git diff --check"
+  - "node scripts/validate-ccps-os.mjs"
+  - "GitHub Actions workflow status"
+  - "正式網址 HTTP 與 DOM 驗收"
+repair_policy:
+  max_passes: 2
+  successful_steps_are_cached: true
+  paid_execution: false
+on_pass: "寫回 ACCEPTED_DEPLOYED、提交部署證據、Push 並停止"
+on_fail: "只修復部署或驗收失敗範圍，最多兩次；仍失敗則停止"
+human_gate:
+  - "已通過：Git Push"
+  - "已通過：Deploy"
+evidence:
+  - "使用者直接授權 Push 與 Deploy"
+state_writeback: "CURRENT_STATE.json"
