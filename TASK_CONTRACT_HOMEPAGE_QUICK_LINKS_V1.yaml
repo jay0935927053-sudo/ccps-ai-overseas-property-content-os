@@ -21,5 +21,6 @@ acceptance_evidence:
   image_links: 1
   video_links: 1
   social_links: 6
+  supplied_account_links_verified: "6/6 HTTP 200"
   safe_new_tab: "PASS"
   data_transmission: false

@@ -6,12 +6,12 @@ export const EXTERNAL_LINK_GROUPS = Object.freeze({
     {label:"ChatArt Pro｜AI 影片生成",url:"https://app.chatartpro.com/"}
   ]),
   social: Object.freeze([
-    {label:"Facebook 首頁",url:"https://www.facebook.com/"},
-    {label:"Instagram 首頁",url:"https://www.instagram.com/"},
-    {label:"YouTube 首頁",url:"https://www.youtube.com/"},
-    {label:"TikTok 首頁",url:"https://www.tiktok.com/"},
-    {label:"LINE 官方帳號管理",url:"https://manager.line.biz/"},
-    {label:"Threads 首頁",url:"https://www.threads.net/"}
+    {label:"Facebook｜CCPS",url:"https://www.facebook.com/CcpsmyInvestmentig"},
+    {label:"Instagram｜@ccpsmy_investment",url:"https://www.instagram.com/ccpsmy_investment/"},
+    {label:"YouTube｜@ccpsmy-investment",url:"https://www.youtube.com/@ccpsmy-investment"},
+    {label:"TikTok｜繁中首頁",url:"https://www.tiktok.com/zh-Hant-TW/"},
+    {label:"LINE＠｜@392okwmj",url:"https://manager.line.biz/account/@392okwmj"},
+    {label:"Threads｜@ccpsmy_investment",url:"https://www.threads.com/@ccpsmy_investment"}
   ])
 });
 

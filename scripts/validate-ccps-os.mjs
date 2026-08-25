@@ -38,7 +38,7 @@ check("4 aspect ratios",multi.ASPECT_RATIOS.length>=4);
 check("GPT image link",external.EXTERNAL_LINK_GROUPS.image.some(x=>x.url==="https://chatgpt.com/"));
 check("ChatArt Pro link",external.EXTERNAL_LINK_GROUPS.video.some(x=>x.url==="https://app.chatartpro.com/"));
 check("6 social links",external.EXTERNAL_LINK_GROUPS.social.length===6);
-check("social platform coverage",["facebook.com","instagram.com","youtube.com","tiktok.com","manager.line.biz","threads.net"].every(domain=>external.EXTERNAL_LINK_GROUPS.social.some(x=>x.url.includes(domain))));
+check("CCPS social account links",["https://www.facebook.com/CcpsmyInvestmentig","https://www.instagram.com/ccpsmy_investment/","https://www.youtube.com/@ccpsmy-investment","https://www.tiktok.com/zh-Hant-TW/","https://manager.line.biz/account/@392okwmj","https://www.threads.com/@ccpsmy_investment"].every(url=>external.EXTERNAL_LINK_GROUPS.social.some(x=>x.url===url)));
 check("external link allowlist",Object.values(external.EXTERNAL_LINK_GROUPS).flat().every(x=>external.isApprovedExternalUrl(x.url))&&!external.isApprovedExternalUrl("https://example.com/"));
 check("safe new tab links",text.includes('window.open(url,"_blank","noopener,noreferrer")'));
 const base={topic:"MM2H 政策",content_role:"專業判斷",hook_type:"直接結論",narrative_type:rules.NARRATIVE_TYPES[1],visual_type:"真實文件",CTA_type:rules.BRAND_CTA,comment_question:"你最想知道什麼？"};

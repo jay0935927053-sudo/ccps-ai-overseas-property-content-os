@@ -44,5 +44,5 @@ python3 -m http.server 8080
 - Inventory HEAD: `3e73dc96c3e3cf22e9e8d5d90c186551e6140888`
 - 承接：分頁暫存 API Key 流程、內容 UI、素材庫、品牌設定、月曆、多平台改寫、Preflight、Project History、Content Tracking
 - 多平台圖片與影片腳本生成器 V1：FB 單圖、IG 五張輪播、YouTube 封面提示詞，以及 15／30／60 秒影片腳本與逐鏡分鏡提示詞；本機生成製作稿，不呼叫付費 API。
-- 首頁快速工作入口：ChatGPT 圖片生成、ChatArt Pro 影片生成，以及 Facebook、Instagram、YouTube、TikTok、LINE 官方帳號管理、Threads 官方首頁；全部以固定白名單在新分頁開啟，不傳送本機資料。
+- 首頁快速工作入口：ChatGPT 圖片生成、ChatArt Pro 影片生成，以及 CCPS 的 Facebook、Instagram、YouTube、LINE＠、Threads 帳號與使用者指定的 TikTok 繁中首頁；全部以固定白名單在新分頁開啟，不傳送本機資料。
 - 不承接：教育模組、舊品牌 CTA、CRM／成交漏斗、非 CCPS Storyboard、UHOS 功能與任何舊 localStorage key
