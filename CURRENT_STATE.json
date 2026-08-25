@@ -2,7 +2,7 @@
   "task_id": "CCPS-AI-CONTENT-OS-V1-FORK-INVENTORY-001",
   "project": "CCPS AI Overseas Property Content OS",
   "status": "VERIFIED_WAITING_HUMAN_PUSH_DEPLOY",
-  "active_task": "CCPS-HOMEPAGE-QUICK-LINKS-V1-001",
+  "active_task": "CCPS-HOMEPAGE-LAYOUT-V1-001",
   "official_material_library": {
     "source": "https://ccps-my.com/",
     "fetched_at": "2026-08-25",
@@ -44,8 +44,8 @@
   "source": {"repository":"jay0935927053-sudo/uncle-house-ai-tool","branch":"main","head_sha":"3e73dc96c3e3cf22e9e8d5d90c186551e6140888"},
   "validator": "node scripts/validate-ccps-os.mjs",
   "acceptance": {
-    "deterministic_validator": "56/56 PASS",
-    "browser_acceptance": "35/35 PASS",
+    "deterministic_validator": "66/66 PASS",
+    "browser_acceptance": "44/44 PASS",
     "viewport": "390x844",
     "paid_api_called": false,
     "repository": "https://github.com/jay0935927053-sudo/ccps-ai-overseas-property-content-os",
@@ -57,5 +57,5 @@
   "on_pass": "等待人工確認 Push 與 Deploy",
   "on_fail": "AUTO_REPAIR_FAILED_SCOPE_MAX_2_THEN_STOP",
   "external_actions_authorized": false,
-  "stop_reason": "Independent CCPS company, ads management, ad operator, ChatArt Pro and Uncle House AI Director links verified locally; Push and Deploy require explicit human approval"
+  "stop_reason": "UHOS ccps self-media factory homepage, Uncle House logo, hamburger work directory, recent posts placement, footer copyright and usage rules verified locally; Push and Deploy require explicit human approval"
 }

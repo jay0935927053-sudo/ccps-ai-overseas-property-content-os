@@ -12,6 +12,8 @@ fill("category",CONTENT_CATEGORIES);fill("contentRole",CONTENT_ROLES);fill("hook
 fill("platformAssetType",PLATFORM_ASSET_TYPES);fill("videoDuration",VIDEO_DURATIONS.map(x=>`${x} 秒`));fill("videoStyle",VIDEO_STYLES);fill("aspectRatio",ASPECT_RATIOS);
 fillLinks("companySiteLink",EXTERNAL_LINK_GROUPS.company);fillLinks("adsManagerLink",EXTERNAL_LINK_GROUPS.ads);fillLinks("imageToolLink",EXTERNAL_LINK_GROUPS.image);fillLinks("videoToolLink",EXTERNAL_LINK_GROUPS.video);fillLinks("socialPlatformLink",EXTERNAL_LINK_GROUPS.social);
 Object.entries(BRAND_FIELD_OPTIONS).forEach(([id,options])=>fill(id,options));
+const setMenu=open=>{$("menuDrawer").hidden=!open;$("menuOverlay").hidden=!open;$("menuToggle").setAttribute("aria-expanded",String(open));document.body.classList.toggle("menu-open",open);if(open)renderAll()};
+$("menuToggle").onclick=()=>setMenu($("menuDrawer").hidden);$("menuClose").onclick=()=>setMenu(false);$("menuOverlay").onclick=()=>setMenu(false);$("openQuickMenu").onclick=()=>setMenu(true);document.addEventListener("keydown",event=>{if(event.key==="Escape")setMenu(false)});
 document.querySelectorAll("[data-open-link]").forEach(button=>button.onclick=()=>{const url=$(button.dataset.openLink).value;if(isApprovedExternalUrl(url))window.open(url,"_blank","noopener,noreferrer")});
 document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.id===b.dataset.tab));document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("primary",x===b));renderAll()});
 const val=id=>$(id).value.trim();

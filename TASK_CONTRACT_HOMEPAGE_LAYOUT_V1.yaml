@@ -1,0 +1,26 @@
+task_id: "CCPS-HOMEPAGE-LAYOUT-V1-001"
+milestone: "UHOS ccps自媒體工廠首頁重排"
+active_repository: "."
+status: "VERIFIED_WAITING_HUMAN_PUSH_DEPLOY"
+inventory:
+  reuse: ["既有內容生成器", "公司與工具白名單", "最近文章 localStorage", "既有功能分頁"]
+  adapter: ["漢堡功能目錄", "首頁快速入口", "房叔 UHOS 品牌 Header", "著作權頁尾"]
+  archive: ["舊 CCPS Logo 保留但不再顯示"]
+frozen_scope:
+  outputs: ["UHOS ccps自媒體工廠標題", "Uncle House Logo", "三條線功能目錄", "首頁自媒體產生器", "首頁快速工作入口", "目錄內最近文章", "著作權聲明與使用規則連結"]
+  preserve: ["文章生成與儲存", "圖片與影片腳本生成器", "素材庫", "品牌設定", "內容月曆", "成效追蹤", "固定 CTA"]
+  forbidden: ["刪除舊 Logo", "清除 localStorage", "外部登入", "Push", "Deploy"]
+acceptance_checks: ["新 Logo 雜湊相符", "首頁標題正確", "公司／廣告／快速平台／最近文章收進漢堡目錄", "首頁第一功能為自媒體產生器", "快速工作入口可開啟目錄", "使用規則可開啟", "手機版無橫向溢位"]
+repair_policy: {max_passes: 2, successful_steps_are_cached: true}
+on_pass: "人工確認 Push 與 Deploy"
+on_fail: "AUTO_REPAIR only failed scope, maximum two passes; then STOP"
+human_gate: ["Push", "Deploy"]
+state_writeback: "CURRENT_STATE.json"
+acceptance_evidence:
+  deterministic_validator: "66/66 PASS"
+  mobile_browser_smoke: "44/44 PASS at 390x844"
+  playwright_cli_snapshot: "PASS"
+  hamburger_open_close: "PASS"
+  usage_rules_navigation: "PASS"
+  new_logo_sha256: "6b6a8f7bb9db09c2f4ed33c666f8ce2b5f730831afe683a019e703cdcc1ac68b"
+  old_logo_preserved: true

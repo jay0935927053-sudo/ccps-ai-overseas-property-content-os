@@ -9,9 +9,17 @@ const checks = [];
 const check = (name, pass, detail = "") => checks.push({ name, pass: Boolean(pass), detail });
 
 await page.goto("http://127.0.0.1:4173/", { waitUntil: "networkidle" });
+check("new homepage title",await page.locator("header h1").textContent()==="UHOS ccps自媒體工廠");
+check("new logo visible",await page.locator('.brand-logo[src="./assets/uncle-house-logo.jpeg"]').isVisible());
+check("self media generator first",await page.locator("#contentGenerator").isVisible()&&await page.locator("#contentGenerator h2").textContent()==="自媒體產生器");
+check("home quick entry visible",await page.locator("#homeQuickEntry").isVisible());
+check("menu initially closed",await page.locator("#menuDrawer").isHidden()&&await page.locator("#menuToggle").getAttribute("aria-expanded")==="false");
+await page.click("#openQuickMenu");
+check("hamburger menu opens",await page.locator("#menuDrawer").isVisible()&&await page.locator("#menuToggle").getAttribute("aria-expanded")==="true");
 check("quick links visible",await page.locator("#quickLinks").isVisible());
 check("independent company links visible",await page.locator("#companyLinks").isVisible());
 check("independent ads links visible",await page.locator("#adsLinks").isVisible());
+check("recent posts inside menu",await page.locator("#recentPosts").isVisible()&&await page.locator("#menuDrawer #postList").count()===1);
 check("3 CCPS company choices",await page.locator("#companySiteLink option").count()===3);
 check("CCPS official site",await page.inputValue("#companySiteLink")==="https://ccps-my.com/");
 check("ads manager selection",await page.inputValue("#adsManagerLink")==="https://adsmanager.facebook.com/");
@@ -27,6 +35,8 @@ check("social selection",await page.inputValue("#socialPlatformLink")==="https:/
 await page.evaluate(()=>{window.__openedLink=null;window.open=(url,target,features)=>{window.__openedLink={url,target,features}}});
 await page.click('[data-open-link="socialPlatformLink"]');
 check("safe selected link open",await page.evaluate(()=>window.__openedLink?.url==="https://www.threads.com/@ccpsmy_investment"&&window.__openedLink?.target==="_blank"&&window.__openedLink?.features==="noopener,noreferrer"));
+await page.click("#menuClose");
+check("hamburger menu closes",await page.locator("#menuDrawer").isHidden()&&await page.locator("#menuToggle").getAttribute("aria-expanded")==="false");
 check("article evidence fields absent",await page.locator("#evidenceState,#sourceDate,#evidence").count()===0);
 await page.click("#generate");
 check("direct article generation",(await page.textContent("#gate")).includes("PASS"));
@@ -39,7 +49,7 @@ check("IG five slide output",(await page.textContent("#platformAssetOutput")).ma
 await page.selectOption("#platformAssetType",{label:"影片腳本與分鏡"});await page.selectOption("#videoDuration",{label:"60 秒"});await page.click("#generatePlatformAsset");
 const videoOutput=await page.textContent("#platformAssetOutput");
 check("60 second storyboard",videoOutput.includes("【60 秒影片腳本與逐鏡分鏡】")&&videoOutput.includes("分鏡圖提示詞：")&&videoOutput.includes("追蹤ccps家慶佳業"));
-check("header logo visible",await page.locator(".brand-logo").isVisible());
+check("copyright footer",(await page.locator("footer").textContent()).includes("© 2026 房叔 UHOS 系統")&&await page.locator("#usageRulesLink").getAttribute("href")==="./usage-rules.html");
 await page.click('[data-tab="brand"]');
 const brandSelectIds=["brandPosition","brandArea","brandAudience","brandTone","brandPrinciples","brandForbidden","voiceTone","voiceColloquial","voicePerson","voiceWords","voiceForbidden","voiceNever","voicePrinciples","voiceExamples"];
 check("brand selects have 8+ choices",await page.evaluate(ids=>ids.every(id=>document.getElementById(id)?.options.length>=8),brandSelectIds));
@@ -63,6 +73,8 @@ check("source link", (await page.locator("#officialList article a").first().getA
 await page.fill("#officialSearch", "");
 check("sealed source option absent", !(await page.locator("#officialSource").textContent()).includes("公司股權"));
 check("internal marker absent", !(await page.locator("body").textContent()).includes("INTERNAL_ONLY"));
+await page.click("#usageRulesLink");
+check("usage rules page",await page.title()==="房叔 UHOS 系統使用規則"&&(await page.locator("h1").textContent())==="房叔 UHOS 系統使用規則"&&await page.locator('a[href="./index.html"]').count()===1);
 
 checks.forEach(x => console.log(`${x.pass ? "PASS" : "FAIL"} ${x.name}${x.detail ? ` — ${x.detail}` : ""}`));
 const failed = checks.filter(x => !x.pass);
