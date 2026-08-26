@@ -1,8 +1,8 @@
 {
-  "task_id": "CCPS-SINGLE-PAID-API-CONTENT-REVIEW-V1-001",
+  "task_id": "CCPS-GPT-FORM-RELEASE-V1-001",
   "project": "CCPS AI Overseas Property Content OS",
-  "status": "VERIFIED_HUMAN_REVIEW_PASS_WITH_NOTE_AWAITING_RELEASE_AUTHORIZATION",
-  "active_task": "CCPS-SINGLE-PAID-API-CONTENT-REVIEW-V1-001",
+  "status": "RELEASE_AUTHORIZED_PENDING_PUSH",
+  "active_task": "CCPS-GPT-FORM-RELEASE-V1-001",
   "accepted_deployed_tasks": [
     "CCPS-FOOTER-USAGE-LINK-V1-001",
     "CCPS-WEBINAR-ADMIN-BUTTON-V1-001",
@@ -106,7 +106,19 @@
     "api_key_storage": ".env.local (gitignored; not committed)",
     "published": false
   },
-  "source": {"repository":"jay0935927053-sudo/ccps-ai-overseas-property-content-os","branch":"main","head_sha":"73406c18adf95bb08edafa653a0da5e06315c0cd"},
+  "gpt_form_release": {
+    "contract": "TASK_CONTRACT_PUSH_DEPLOY_GPT_FORM_RELEASE_V1.yaml",
+    "status": "RELEASE_AUTHORIZED_PENDING_PUSH",
+    "remote_baseline": "8daa954",
+    "verified_feature_head": "3e1e41b",
+    "initial_ahead_behind": "0 behind / 9 ahead",
+    "push_authorized": true,
+    "deploy_authorized": true,
+    "deployment_workflow": "pages-build-deployment",
+    "live_verification": "PENDING",
+    "published": false
+  },
+  "source": {"repository":"jay0935927053-sudo/ccps-ai-overseas-property-content-os","branch":"main","head_sha":"3e1e41b"},
   "upstream_reference": {"repository":"jay0935927053-sudo/uncle-house-ai-tool","branch":"main","head_sha":"3e73dc96c3e3cf22e9e8d5d90c186551e6140888"},
   "validator": "node scripts/validate-ccps-os.mjs",
   "acceptance": {
@@ -120,8 +132,8 @@
     "deployment": "https://jay0935927053-sudo.github.io/ccps-ai-overseas-property-content-os/",
     "live_smoke_test": "PASS (2026-08-26: footer usage-rules URL and visible webinar admin button verified at 390x844 with no horizontal overflow)"
   },
-  "on_pass": "HUMAN_GATE_AUTHORIZE_PUSH_DEPLOY",
+  "on_pass": "PUSH_MAIN_WAIT_GITHUB_PAGES_VERIFY_LIVE",
   "on_fail": "AUTO_REPAIR_FAILED_SCOPE_MAX_2_THEN_STOP",
-  "external_actions_authorized": false,
-  "stop_reason": "Single paid API content review passed with a documented wording note; Push and Deploy remain separately gated"
+  "external_actions_authorized": true,
+  "stop_reason": "Push and Deploy are authorized; release contract is frozen and awaiting the initial main push"
 }

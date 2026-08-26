@@ -1,0 +1,75 @@
+task_id: "CCPS-GPT-FORM-RELEASE-V1-001"
+milestone: "新版 GPT 動態引擎與 FB 信任貼文表單正式發布"
+active_repository: "."
+formal_source: "CURRENT_STATE.json"
+controller_model: "SOL_CONTROLLER"
+execution_route: "PUSH_MAIN_THEN_GITHUB_PAGES_DEPLOY_AND_LIVE_VERIFY"
+status: "CONTRACT_FROZEN"
+inventory:
+  reuse:
+    - "GPT 動態內容轉接器：fdfab912043603da231021a40da6e22ee8fe22f4"
+    - "首頁標題移除 ccps：cef14d4bf419d5ef42ca7e405b798128b7023e9c"
+    - "FB信任貼文與 20／8／5 選項：77d4c5254b975a94ef6711c72b1cecdea43cc076"
+    - "單次付費 API 品質審查：PASS_WITH_REVIEW_NOTE"
+    - "GitHub Pages 既有 pages-build-deployment 路徑"
+  repair: []
+  adapter: []
+  replace: []
+  archive: []
+  do_not_use:
+    - "uhos-ai-director-migration/（未追蹤且不屬於本次發布）"
+    - ".env.local、output/ 與任何 Secret／本機審查文章"
+    - "第二次付費 API 呼叫"
+frozen_scope:
+  remote: "origin"
+  branch: "main"
+  remote_baseline: "8daa954"
+  verified_feature_head: "3e1e41b"
+  initial_ahead_behind: "0 behind / 9 ahead"
+  release_contents:
+    - "原版 GPT 動態生成引擎接回新版"
+    - "素材、人設、寫作指紋與敘事選擇進入提示詞"
+    - "素材雲端門禁、安全檢查與固定 CTA 保留"
+    - "首頁標題為 UHOS 自媒體工廠"
+    - "頁籤為 FB信任貼文"
+    - "主題 20、圖片類型 8、留言問題 5"
+  allowed_changes:
+    - "TASK_CONTRACT_PUSH_DEPLOY_GPT_FORM_RELEASE_V1.yaml"
+    - "CURRENT_STATE.json"
+  forbidden_changes:
+    - "所有功能程式、素材、品牌、人設、提示詞與 Secret"
+    - "未追蹤或忽略檔案"
+  authorized_external_actions:
+    - "Git Push origin main"
+    - "GitHub Pages Deploy"
+  push_budget:
+    initial_release_push: 1
+    verified_state_writeback_push: 1
+acceptance_checks:
+  - "部署前 node scripts/validate-ccps-os.mjs = 99/99 PASS"
+  - "遠端 main 沒有本機未包含的新 Commit"
+  - ".env.local、output/ 與 uhos-ai-director-migration/ 不進入 Commit"
+  - "兩次 Push 均為 main 的 fast-forward"
+  - "GitHub Pages pages-build-deployment 對最終狀態 Commit 成功"
+  - "公開首頁標題恰為 UHOS 自媒體工廠，舊標題不存在"
+  - "公開頁籤恰為 FB信任貼文，舊頁籤文字不存在"
+  - "公開頁面主題 20、圖片類型 8、留言問題 5"
+  - "公開 app.js 載入 ccps-gpt-adapter.js 並使用 GPT 動態生成函式"
+  - "390x844 公開頁面無橫向溢位且瀏覽器無錯誤"
+validators:
+  - "node scripts/validate-ccps-os.mjs"
+  - "git diff --check"
+  - "gh run watch pages-build-deployment"
+  - "public HTTP source verification"
+  - "390x844 browser live smoke"
+repair_policy:
+  max_passes: 2
+  paid_execution: false
+  successful_steps_are_cached: true
+on_pass: "STOP_RELEASE_VERIFIED"
+on_fail: "AUTO_REPAIR_DEPLOYMENT_ONLY_MAX_2_THEN_STOP"
+human_gate:
+  push_and_deploy: "AUTHORIZED_BY_USER"
+evidence: []
+state_writeback: "CURRENT_STATE.json"
+stop_point: "最終狀態 Commit 部署與公開網站驗證通過後停止。"
