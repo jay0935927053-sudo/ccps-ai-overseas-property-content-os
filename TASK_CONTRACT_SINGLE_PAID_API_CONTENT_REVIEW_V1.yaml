@@ -1,0 +1,79 @@
+task_id: "CCPS-SINGLE-PAID-API-CONTENT-REVIEW-V1-001"
+milestone: "GPT 動態生成單篇實際輸出品質審查"
+active_repository: "."
+formal_source: "CURRENT_STATE.json"
+controller_model: "SOL_CONTROLLER"
+execution_route: "ONE_PAID_OPENAI_RESPONSES_API_REQUEST"
+status: "VERIFIED_HUMAN_REVIEW_PASS_WITH_NOTE"
+inventory:
+  reuse:
+    - "已驗證的 GPT 動態內容轉接器與 Responses API 路徑"
+    - "FB 信任貼文表單預設選項"
+    - "品牌人設、寫作指紋、素材雲端門禁、安全檢查與固定 CTA"
+    - "使用者已授權 HUMAN_GATE_SINGLE_PAID_API_CONTENT_REVIEW"
+  repair: []
+  adapter: []
+  replace: []
+  archive: []
+  do_not_use:
+    - "任何未獲授權的第二次付費 API 呼叫"
+    - "未選素材、客戶個資、內部或封存素材"
+    - "Git Push、Merge、Deploy 或公開發布"
+frozen_scope:
+  request_limit: 1
+  model: "gpt-5.6-terra"
+  reasoning_effort: "low"
+  selected_material: null
+  form:
+    topic: "吉隆坡置產怎麼判斷"
+    category: "馬來西亞置產"
+    content_role: "共鳴故事"
+    hook_type: "情境開場"
+    narrative_type: "Scene → Conflict → Judgment → Lesson"
+    goal: "高信任"
+    visual_type: "真實文件與區域地圖"
+    comment_question: "你評估海外置產時，最想先查清楚哪一項？"
+  brand_and_voice: "各欄位使用目前新版表單第一個正式選項"
+  fixed_cta: "追蹤ccps家慶佳業"
+  outputs:
+    - "單篇 GPT 實際生成文章"
+    - "既有 Preflight 結果"
+    - "人工商用品質審查結論"
+  allowed_changes:
+    - "TASK_CONTRACT_SINGLE_PAID_API_CONTENT_REVIEW_V1.yaml"
+    - "output/paid_api_review/2026-08-26-single-gpt-article.json"
+    - "CURRENT_STATE.json"
+  forbidden_changes:
+    - "所有生成引擎、提示詞、表單、素材庫、品牌與安全檢查程式碼"
+    - ".env.local 與任何 Secret 的提交或輸出"
+    - "Git Push、Merge、Deploy 或發布"
+acceptance_checks:
+  - "付費 API 呼叫次數恰為 1"
+  - "輸出為繁體中文且主題符合吉隆坡置產判斷"
+  - "素材未選用，且無杜撰客戶、成交、會議或現場故事"
+  - "明確包含優點、限制、適合與不適合對象"
+  - "留言問題自然進入正文"
+  - "最後一行恰為追蹤ccps家慶佳業，且沒有第二個 CTA"
+  - "既有 Preflight fabricated_story_gate 與 similarity_status 必須 PASS"
+validators:
+  - "runPreflight generated body"
+  - "manual commercial quality review"
+repair_policy:
+  max_passes: 0
+  paid_retry: false
+on_pass: "HUMAN_GATE_AUTHORIZE_PUSH_DEPLOY"
+on_fail: "STOP_WITH_SINGLE_OUTPUT_EVIDENCE_NO_PAID_RETRY"
+human_gate:
+  - "Git Push"
+  - "Deploy"
+evidence:
+  - "OpenAI Responses API paid request count: 1; no retry"
+  - "Output artifact: output/paid_api_review/2026-08-26-single-gpt-article.json"
+  - "fabricated_story_gate=PASS; similarity_status=PASS; brand_pov=PASS"
+  - "Human quality review=PASS_WITH_REVIEW_NOTE"
+  - "Opening=23 characters; Traditional Chinese=PASS; comment question=PASS; fixed CTA last line once=PASS"
+  - "Manual trade-off review=PASS; automated WARN was caused by wording variation, not missing balanced analysis"
+  - "API key stored only in ignored .env.local; secret not printed or committed"
+  - "Git Push=false; Deploy=false; publication=false"
+state_writeback: "CURRENT_STATE.json"
+stop_point: "完成單篇實際輸出審查與狀態回寫後停止，不自動重試、Push 或 Deploy。"
