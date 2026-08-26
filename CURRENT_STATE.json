@@ -1,8 +1,8 @@
 {
-  "task_id": "CCPS-GPT-DYNAMIC-CONTENT-ADAPTER-V1-001",
+  "task_id": "CCPS-REMOVE-CCPS-HEADER-TEXT-V1-001",
   "project": "CCPS AI Overseas Property Content OS",
-  "status": "VERIFIED_WAITING_HUMAN_API_REVIEW",
-  "active_task": "CCPS-GPT-DYNAMIC-CONTENT-ADAPTER-V1-001",
+  "status": "VERIFIED_LOCAL_RETURNING_TO_PRIOR_HUMAN_GATE",
+  "active_task": "CCPS-REMOVE-CCPS-HEADER-TEXT-V1-001",
   "accepted_deployed_tasks": [
     "CCPS-FOOTER-USAGE-LINK-V1-001",
     "CCPS-WEBINAR-ADMIN-BUTTON-V1-001",
@@ -66,7 +66,16 @@
     "paid_api_called": false,
     "human_review": "REQUIRED"
   },
-  "source": {"repository":"jay0935927053-sudo/ccps-ai-overseas-property-content-os","branch":"main","head_sha":"fdfab912043603da231021a40da6e22ee8fe22f4"},
+  "header_title_patch": {
+    "contract": "TASK_CONTRACT_REMOVE_CCPS_HEADER_TEXT_V1.yaml",
+    "status": "VERIFIED_LOCAL",
+    "implementation_commit": "cef14d4bf419d5ef42ca7e405b798128b7023e9c",
+    "title": "UHOS 自媒體工廠",
+    "deterministic_validator": "95/95 PASS",
+    "mobile_browser_smoke": "PASS at 390x844",
+    "published": false
+  },
+  "source": {"repository":"jay0935927053-sudo/ccps-ai-overseas-property-content-os","branch":"main","head_sha":"cef14d4bf419d5ef42ca7e405b798128b7023e9c"},
   "upstream_reference": {"repository":"jay0935927053-sudo/uncle-house-ai-tool","branch":"main","head_sha":"3e73dc96c3e3cf22e9e8d5d90c186551e6140888"},
   "validator": "node scripts/validate-ccps-os.mjs",
   "acceptance": {
@@ -83,5 +92,5 @@
   "on_pass": "HUMAN_GATE_SINGLE_PAID_API_CONTENT_REVIEW",
   "on_fail": "AUTO_REPAIR_FAILED_SCOPE_MAX_2_THEN_STOP",
   "external_actions_authorized": false,
-  "stop_reason": "GPT dynamic content adapter is verified locally; real API quality review, Push and Deploy require separate human authorization"
+  "stop_reason": "Header ccps text removal is verified locally; prior real API quality review, Push and Deploy remain separately gated"
 }
