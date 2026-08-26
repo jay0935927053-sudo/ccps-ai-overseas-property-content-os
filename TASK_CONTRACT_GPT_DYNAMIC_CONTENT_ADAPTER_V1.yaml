@@ -1,0 +1,166 @@
+task_id: "CCPS-GPT-DYNAMIC-CONTENT-ADAPTER-V1-001"
+milestone: "把原版 GPT 動態內容生成能力接回新版 CCPS 自媒體工廠"
+active_repository: "."
+formal_source: "CURRENT_STATE.json"
+controller_model: "SOL_CONTROLLER"
+execution_route: "TERRA_BOUNDED_EXECUTOR_WITH_DETERMINISTIC_VALIDATOR"
+status: "VERIFIED_WAITING_HUMAN_API_REVIEW"
+
+baseline:
+  local_branch: "main"
+  local_head: "8daa954a77fa2239fc0cdbb89ae80c2d08641c42"
+  deployed_application_commit: "d5db6def7655f2b6b344fc2dabeb9641eb30d2cc"
+  deployed_application_url: "https://jay0935927053-sudo.github.io/ccps-ai-overseas-property-content-os/"
+  original_reference_url: "https://jay0935927053-sudo.github.io/uncle-house-ai-tool/"
+  boundary: "本機 HEAD 僅作實作基線；既有已部署版本保持不變，未經人工授權不得 Push 或 Deploy。"
+
+inventory:
+  reuse:
+    - "ccps-rules.js：內容角色、開場方式、敘事結構、禁用套話與固定 CTA"
+    - "ccps-brand-options.js：6 個品牌欄位與 8 個寫作指紋欄位"
+    - "ccps-storage.js：品牌、寫作指紋、素材、文章與追蹤的既有 namespace"
+    - "ccps-preflight.js：虛構故事、時效性、相似度、品牌觀點與優缺點檢查"
+    - "素材庫、官方信任內容來源庫與既有匯入流程"
+    - "ccps-multiplatform-engine.js 與現有下游文章資料結構"
+    - "固定品牌 CTA：追蹤ccps家慶佳業"
+  repair:
+    - "ccps-content-engine.js 目前以固定句型產生正文，未使用 GPT、品牌人設、寫作指紋或選用素材"
+    - "app.js 的生成按鈕目前同步呼叫固定模板，API Key 欄位沒有連接生成流程"
+    - "index.html 的素材庫沒有提供文章生成時的明確單筆選用介面"
+  adapter:
+    - "原版 OpenAI Responses API 動態生成流程，以最小獨立介面接入新版"
+    - "把文章表單、品牌人設、寫作指紋及使用者明確選定的單筆素材序列化為提示詞"
+    - "把 GPT 輸出轉成既有文章物件，通過 Preflight 後才交給儲存及多平台功能"
+  replace: []
+  archive: []
+  do_not_use:
+    - "用原版整頁程式覆蓋新版"
+    - "把素材庫全部內容自動送往外部 API"
+    - "含內部資訊、客戶個資、僅供內部研究或待主管確認的素材"
+    - "uhos-ai-director-migration/（不屬於本次任務）"
+  missing:
+    - "GPT 動態生成 Adapter"
+    - "生成用單筆素材選擇器與雲端傳送資格檢查"
+    - "提示詞欄位覆蓋與 API 安全邊界的確定性驗收"
+
+frozen_scope:
+  inputs:
+    - "文章欄位：topic、category、content_role、hook_type、narrative_type、goal、visual_type、comment_question"
+    - "品牌人設：brandPosition、brandArea、brandAudience、brandTone、brandPrinciples、brandForbidden"
+    - "寫作指紋：voiceTone、voiceColloquial、voicePerson、voiceWords、voiceForbidden、voiceNever、voicePrinciples、voiceExamples"
+    - "固定 CTA：追蹤ccps家慶佳業"
+    - "使用者明確選定的一筆可公開或已匿名化素材，以及其 title、body、source、source_date、evidence_state、freshness_required"
+    - "使用者於目前分頁輸入且未被持久化的 OpenAI API Key"
+  outputs:
+    - "一篇由 GPT 動態生成的繁體中文 CCPS 臉書信任文章"
+    - "可供既有 Preflight、儲存、成效追蹤、多平台改寫及圖片／影片製作稿使用的既有 article 物件"
+    - "可驗證的 system prompt 與 user prompt 純函式，不包含 API Key"
+    - "清楚區分 API 生成失敗、Preflight 阻擋與成功輸出三種狀態"
+  allowed_changes:
+    - "index.html"
+    - "app.js"
+    - "ccps-content-engine.js"
+    - "新增 ccps-gpt-adapter.js"
+    - "scripts/validate-ccps-os.mjs"
+    - "README.md"
+    - "docs/CCPS_CONTENT_RULES.md"
+    - "TASK_CONTRACT_GPT_DYNAMIC_CONTENT_ADAPTER_V1.yaml"
+    - "CURRENT_STATE.json（僅在實作完成且驗收通過後寫回）"
+  forbidden_changes:
+    - "data/"
+    - "assets/"
+    - "ccps-rules.js 的品牌 CTA、禁用規則及安全門檻"
+    - "ccps-brand-options.js 的既有品牌與寫作指紋選項"
+    - "ccps-preflight.js 的既有安全檢查語意"
+    - "ccps-storage.js 的既有 storage keys"
+    - "ccps-multiplatform-engine.js"
+    - "uhos-ai-director-migration/"
+    - "Secrets、正式資料庫、OAuth、廣告、郵件或其他外部服務"
+    - "自動 Push、Merge、Deploy 或發布"
+    - "自動或批次付費 API 呼叫"
+    - "將 API Key 寫入 localStorage、sessionStorage、檔案、URL、log、錯誤訊息或文章紀錄"
+    - "未經使用者明確選擇就傳送任何素材"
+    - "未通過素材雲端傳送資格檢查仍呼叫 API"
+
+gpt_adapter_contract:
+  endpoint: "https://api.openai.com/v1/responses"
+  model: "gpt-5.6-terra"
+  reasoning_effort: "low"
+  max_output_tokens: 8000
+  invocation: "只有 API Key 非空且使用者按下生成文章時，才允許單次呼叫；不得背景呼叫、重試付費步驟或自動 fallback 到其他模型。"
+  secret_lifetime: "僅目前頁面記憶體；重新整理或關閉分頁後消失。"
+  prompt_requirements:
+    - "system prompt 必須使用 CCPS 內容總監角色、繁體中文、專業可執行、不浮誇、不保證報酬。"
+    - "user prompt 必須逐欄包含文章欄位、完整品牌人設、完整寫作指紋、固定 CTA 與選用素材。"
+    - "content_role、hook_type、narrative_type 必須是生成指令，不得只存入輸出 metadata。"
+    - "素材的 evidence_state 或 freshness_required 需要查證時，提示詞必須要求保留查證提醒，不得改寫成已確認事實。"
+    - "不得杜撰客戶、成交、會議、現場紀錄、價格、政策、法規、稅率、投報或保證性敘述。"
+    - "結尾只能使用：追蹤ccps家慶佳業。"
+  material_cloud_gate:
+    allowed_privacy:
+      - "無個資，可作公開內容候選"
+      - "已匿名化客戶資料"
+    blocked_privacy:
+      - "含內部資訊，禁止公開"
+      - "含客戶個資，需先移除"
+      - "僅供內部研究"
+      - "需主管確認公開範圍"
+    blocked_visibility:
+      - "internal_only"
+    behavior: "被阻擋時不得呼叫 API，畫面必須指出素材不可傳送，並保留原素材不變。"
+  failure_behavior:
+    - "缺少 API Key：停止，不呼叫 API，顯示需輸入金鑰。"
+    - "HTTP 或串流失敗：停止並顯示一般化錯誤，不顯示或記錄 API Key。"
+    - "空白輸出：視為 FAIL，不建立文章物件。"
+    - "Preflight BLOCK：不得儲存、不得交給多平台功能。"
+    - "不得把固定模板輸出偽裝成 GPT 成功結果。"
+
+acceptance_checks:
+  - "既有素材庫、品牌與寫作指紋、Preflight、儲存、追蹤與多平台功能回歸 PASS"
+  - "提示詞純函式逐欄包含 8 個文章欄位、6 個品牌欄位、8 個寫作指紋欄位及固定 CTA"
+  - "選用一筆合格素材時，prompt 包含該素材內容、來源、日期、證據狀態與時效提醒"
+  - "未選素材時不會傳送素材庫其他內容"
+  - "六種受阻擋隱私／可見性狀態均在 fetch 前停止"
+  - "API Key 不存在於 localStorage、sessionStorage、URL、console、prompt、文章物件或下載內容"
+  - "content_role、hook_type、narrative_type 的不同測試值會進入 prompt 指令"
+  - "GPT 回傳內容必須經既有 Preflight；BLOCK 時不能儲存或產生下游內容"
+  - "成功 article 物件仍可供現有多平台產生器使用，且包含追蹤ccps家慶佳業"
+  - "無 API Key、HTTP 失敗、空白輸出與 Preflight BLOCK 都有不同且可理解的繁體中文狀態"
+  - "390x844 版面無橫向溢位，新增素材選擇與生成狀態可操作"
+  - "未執行付費 API、Push 或 Deploy 也能完成所有自動驗收"
+
+validators:
+  - "git diff --check"
+  - "node scripts/validate-ccps-os.mjs"
+  - "在 scripts/validate-ccps-os.mjs 內以 mock fetch 驗證 request body、單次呼叫、失敗分支與 Secret 不落地"
+  - "390x844 本機瀏覽器 smoke test"
+  - "人工門禁後才允許一次真實 API 內容品質驗收"
+
+repair_policy:
+  max_passes: 2
+  successful_steps_are_cached: true
+  paid_execution: false
+  rule: "只修失敗檢查及其直接相依；相同錯誤重複後停止，不重跑成功或付費步驟。"
+
+on_pass: "HUMAN_GATE_SINGLE_PAID_API_CONTENT_REVIEW"
+on_fail: "AUTO_REPAIR_FAILED_SCOPE_MAX_2_THEN_STOP"
+
+human_gate:
+  - "使用者自行輸入 OpenAI API Key；Key 不得出現在聊天或驗收證據"
+  - "一次真實 OpenAI API 內容品質測試與可能費用"
+  - "主觀確認輸出是否恢復原版品質"
+  - "Git Push"
+  - "Deploy"
+
+evidence:
+  - "2026-08-26 新版發布頁面與本機 ccps-content-engine.js：目前為固定模板且不呼叫 API"
+  - "2026-08-26 原版發布頁面：OpenAI Responses API、gpt-5.6-terra、reasoning low、max_output_tokens 8000"
+  - "CURRENT_STATE.json：既有新版部署、素材庫與驗收證據"
+  - "scripts/validate-ccps-os.mjs：現有回歸驗收入口"
+  - "2026-08-26 本機實作完成：GPT Adapter、單筆素材選擇、素材雲端門禁、品牌與寫作指紋提示詞接線"
+  - "node scripts/validate-ccps-os.mjs：95/95 PASS，包含 mock Responses API、單次呼叫、Secret 不進 request body、六種素材阻擋與下游相容"
+  - "390x844 本機瀏覽器 smoke PASS：無橫向溢位、素材選擇器與 password 欄位可見、缺少金鑰正確停止、重新生成只切換指紋且不呼叫 API"
+  - "真實付費 API、Push 與 Deploy 均未執行"
+
+state_writeback: "CURRENT_STATE.json"
+stop_point: "IMPLEMENT、AUTO_REVIEW、VERIFIED 與 STATE_WRITEBACK 已完成；停在 HUMAN_GATE_SINGLE_PAID_API_CONTENT_REVIEW，不得自動呼叫真實 API、Push 或 Deploy。"

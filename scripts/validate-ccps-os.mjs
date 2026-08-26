@@ -3,11 +3,12 @@ import path from "node:path";
 import process from "node:process";
 import { pathToFileURL } from "node:url";
 const root=path.resolve(import.meta.dirname,"..");
-const files=["index.html","usage-rules.html","ccps-rules.js","ccps-brand-options.js","ccps-ui-options.js","ccps-content-engine.js","ccps-multiplatform-engine.js","ccps-external-links.js","ccps-storage.js","ccps-preflight.js","app.js","README.md","docs/CCPS_CONTENT_RULES.md","assets/ccps-logo.jpg","assets/uncle-house-logo.jpeg"];
+const files=["index.html","usage-rules.html","ccps-rules.js","ccps-brand-options.js","ccps-ui-options.js","ccps-content-engine.js","ccps-gpt-adapter.js","ccps-multiplatform-engine.js","ccps-external-links.js","ccps-storage.js","ccps-preflight.js","app.js","README.md","docs/CCPS_CONTENT_RULES.md","assets/ccps-logo.jpg","assets/uncle-house-logo.jpeg"];
 const text=files.filter(f=>fs.existsSync(path.join(root,f))).map(f=>fs.readFileSync(path.join(root,f),"utf8")).join("\n");
 const pageText=["index.html","usage-rules.html"].map(f=>fs.readFileSync(path.join(root,f),"utf8")).join("\n");
 const rules=await import(pathToFileURL(path.join(root,"ccps-rules.js")));
 const engine=await import(pathToFileURL(path.join(root,"ccps-content-engine.js")));
+const gpt=await import(pathToFileURL(path.join(root,"ccps-gpt-adapter.js")));
 const preflight=await import(pathToFileURL(path.join(root,"ccps-preflight.js")));
 const brandOptions=await import(pathToFileURL(path.join(root,"ccps-brand-options.js")));
 const multi=await import(pathToFileURL(path.join(root,"ccps-multiplatform-engine.js")));
@@ -32,6 +33,8 @@ check("14 configurable brand fields",Object.keys(brandOptions.BRAND_FIELD_OPTION
 check("8+ choices per brand field",Object.values(brandOptions.BRAND_FIELD_OPTIONS).every(options=>options.length>=8));
 check("brand fields are selects",Object.keys(brandOptions.BRAND_FIELD_OPTIONS).every(id=>text.includes(`<select id="${id}">`)));
 check("brand ending locked",text.includes('id="brandEnding" value="追蹤ccps家慶佳業" readonly'));
+check("GPT material selector",text.includes('id="selectedMaterial"')&&text.includes("生成時選用素材"));
+check("GPT key is page-memory only",text.includes("OpenAI 應用程式金鑰（僅目前分頁，不儲存）")&&!text.includes('writeStore("apiKey"')&&!text.includes("sessionStorage"));
 check("Uncle House header logo",text.includes('src="./assets/uncle-house-logo.jpeg"')&&fs.statSync(path.join(root,"assets/uncle-house-logo.jpeg")).size>10000);
 check("old CCPS logo preserved",fs.existsSync(path.join(root,"assets/ccps-logo.jpg")));
 check("homepage title",text.includes("<title>UHOS ccps自媒體工廠</title>")&&text.includes("<h1>UHOS ccps自媒體工廠</h1>"));
@@ -73,6 +76,42 @@ check("fake story blocks",fake.fabricated_story_gate==="BLOCK: FABRICATED_REAL_W
 check("freshness is advisory",preflight.runPreflight({...base,body:"馬來西亞政策整理"},[]).freshness_warning==="REVIEW_RECOMMENDED");
 const good=engine.buildArticle(base,[]);
 check("article output",!good.blocked && good.body.includes(rules.BRAND_CTA) && good.checks.brand_pov==="PASS");
+const promptForm={topic:"TEST_TOPIC",category:"TEST_CATEGORY",content_role:"TEST_ROLE",hook_type:"TEST_HOOK",narrative_type:"TEST_NARRATIVE",goal:"TEST_GOAL",visual_type:"TEST_VISUAL",comment_question:"TEST_QUESTION",CTA_type:rules.BRAND_CTA};
+const promptBrand={brandPosition:"TEST_POSITION",brandArea:"TEST_AREA",brandAudience:"TEST_AUDIENCE",brandTone:"TEST_BRAND_TONE",brandPrinciples:"TEST_BRAND_PRINCIPLES",brandForbidden:"TEST_BRAND_FORBIDDEN"};
+const promptVoice={voiceTone:"TEST_VOICE_TONE",voiceColloquial:"TEST_COLLOQUIAL",voicePerson:"TEST_PERSON",voiceWords:"TEST_WORDS",voiceForbidden:"TEST_VOICE_FORBIDDEN",voiceNever:"TEST_NEVER",voicePrinciples:"TEST_VOICE_PRINCIPLES",voiceExamples:"TEST_EXAMPLES"};
+const promptMaterial={id:"material-1",title:"TEST_MATERIAL_TITLE",body:"TEST_MATERIAL_BODY",source:"TEST_MATERIAL_SOURCE",source_date:"2026-08-26",evidence_state:"MEMORY_DERIVED",freshness_required:true,privacy_note:"無個資，可作公開內容候選"};
+const prompt=gpt.buildUserPrompt({form:promptForm,brand:promptBrand,voice:promptVoice,material:promptMaterial});
+check("GPT prompt 8 article fields",Object.values(promptForm).filter(value=>value!==rules.BRAND_CTA).every(value=>prompt.includes(value)));
+check("GPT prompt 6 brand fields",Object.values(promptBrand).every(value=>prompt.includes(value)));
+check("GPT prompt 8 voice fields",Object.values(promptVoice).every(value=>prompt.includes(value)));
+check("GPT prompt selected material",[promptMaterial.title,promptMaterial.body,promptMaterial.source,promptMaterial.source_date,promptMaterial.evidence_state,"需要重新查證"].every(value=>prompt.includes(value)));
+check("GPT prompt fixed CTA",prompt.includes(rules.BRAND_CTA));
+check("GPT choices are instructions",prompt.includes(`必須依「文章角色：${promptForm.content_role}」`)&&prompt.includes(`採用「開場方式：${promptForm.hook_type}」`)&&prompt.includes(`依「敘事結構：${promptForm.narrative_type}」`));
+const noMaterialPrompt=gpt.buildUserPrompt({form:promptForm,brand:promptBrand,voice:promptVoice,material:null});
+check("GPT no unselected material",!noMaterialPrompt.includes(promptMaterial.body)&&noMaterialPrompt.includes("本次未選用素材"));
+const blockedMaterials=[
+  ...gpt.BLOCKED_MATERIAL_PRIVACY.map(privacy_note=>({...promptMaterial,privacy_note})),
+  {...promptMaterial,privacy_note:"",visibility:"internal_only"},
+  {...promptMaterial,privacy_note:"",visibility:"UNKNOWN"}
+];
+check("GPT 6 material cloud blocks",blockedMaterials.length===6&&blockedMaterials.every(material=>!gpt.materialCloudEligibility(material).pass));
+let fetchCalls=0,capturedRequest=null;
+const streamText=`data: ${JSON.stringify({type:"response.output_text.delta",delta:`CCPS 判斷：${promptForm.topic}需要先比較條件。\n\n${rules.BRAND_CTA}`})}\n\ndata: [DONE]\n\n`;
+const streamBytes=new TextEncoder().encode(streamText);
+const mockFetch=async(url,options)=>{fetchCalls+=1;capturedRequest={url,options};let sent=false;return {ok:true,status:200,body:{getReader:()=>({read:async()=>sent?{done:true}:{done:(sent=true)&&false,value:streamBytes}})}}};
+const mockOutput=await gpt.requestGptArticle({apiKey:"TEST_KEY_DO_NOT_STORE",form:promptForm,brand:promptBrand,voice:promptVoice,material:promptMaterial,fetchImpl:mockFetch});
+const capturedBody=JSON.parse(capturedRequest.options.body);
+check("GPT mock single request",fetchCalls===1&&capturedRequest.url===gpt.GPT_ENDPOINT&&capturedRequest.options.method==="POST");
+check("GPT request config",capturedBody.model===gpt.GPT_MODEL&&capturedBody.reasoning.effort==="low"&&capturedBody.max_output_tokens===8000&&capturedBody.stream===true);
+check("GPT secret not in request content",!capturedRequest.url.includes("TEST_KEY_DO_NOT_STORE")&&!capturedRequest.options.body.includes("TEST_KEY_DO_NOT_STORE")&&!prompt.includes("TEST_KEY_DO_NOT_STORE"));
+check("GPT mock stream output",mockOutput.includes(promptForm.topic)&&mockOutput.endsWith(rules.BRAND_CTA));
+const gptArticle=engine.buildArticleFromGpt(promptForm,mockOutput,[]);
+check("GPT article keeps downstream contract",!gptArticle.blocked&&gptArticle.generation_source==="OPENAI_RESPONSES_API"&&gptArticle.body.includes(rules.BRAND_CTA)&&multi.buildVideoPackage(gptArticle,{duration:15}).includes(rules.BRAND_CTA));
+let blockedFetchCalls=0;
+for(const material of blockedMaterials){try{await gpt.requestGptArticle({apiKey:"TEST_KEY",form:promptForm,brand:promptBrand,voice:promptVoice,material,fetchImpl:async()=>{blockedFetchCalls+=1;return {ok:true}}})}catch{}}
+check("GPT material blocks before fetch",blockedFetchCalls===0);
+const errorCode=async(args)=>{try{await gpt.requestGptArticle({apiKey:"TEST_KEY",form:promptForm,brand:promptBrand,voice:promptVoice,material:null,...args});return "NO_ERROR"}catch(error){return error.code}};
+check("GPT distinct failure states",await errorCode({apiKey:""})==="MISSING_API_KEY"&&await errorCode({fetchImpl:async()=>{throw new Error("offline")}})==="API_NETWORK_ERROR"&&await errorCode({fetchImpl:async()=>({ok:false,status:429})})==="API_RESPONSE_ERROR"&&await errorCode({fetchImpl:async()=>({ok:true,status:200,body:{getReader:()=>({read:async()=>({done:true})})}})})==="EMPTY_API_OUTPUT");
 check("FB image prompt",multi.buildFacebookImagePrompt(good).includes("FB 單張圖片提示詞"));
 check("IG exactly 5 slides",(multi.buildInstagramCarouselPrompts(good).match(/第 [1-5] 張｜/g)||[]).length===5);
 check("YouTube thumbnail prompt",multi.buildYoutubeThumbnailPrompt(good).includes("1280×720"));
