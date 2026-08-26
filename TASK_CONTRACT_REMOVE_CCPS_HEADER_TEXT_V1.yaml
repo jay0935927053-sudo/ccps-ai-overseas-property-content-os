@@ -1,0 +1,68 @@
+task_id: "CCPS-REMOVE-CCPS-HEADER-TEXT-V1-001"
+milestone: "移除首頁標題中的 ccps 文字"
+active_repository: "."
+formal_source: "CURRENT_STATE.json"
+controller_model: "SOL_CONTROLLER"
+execution_route: "ACTIVE_PRIMARY_SESSION_WITH_DETERMINISTIC_VALIDATOR"
+status: "VERIFIED_LOCAL"
+inventory:
+  reuse:
+    - "Uncle House Logo"
+    - "首頁 Header 版型與副標題"
+    - "GPT 動態生成修復及其 HUMAN_GATE_SINGLE_PAID_API_CONTENT_REVIEW"
+    - "固定 CTA：追蹤ccps家慶佳業"
+  repair:
+    - "首頁瀏覽器標題與 H1 目前顯示 UHOS ccps自媒體工廠"
+  adapter: []
+  replace: []
+  archive:
+    - "TASK_CONTRACT_HOMEPAGE_LAYOUT_V1.yaml 內的舊標題屬歷史驗收證據，不修改"
+  do_not_use:
+    - "將品牌 CTA 或 CCPS 品牌內容規則一起改名"
+    - "uhos-ai-director-migration/（不屬於本次任務）"
+  missing: []
+frozen_scope:
+  inputs:
+    - "使用者截圖紅圈標示的 ccps 文字"
+  outputs:
+    - "瀏覽器標題：UHOS 自媒體工廠"
+    - "首頁 H1：UHOS 自媒體工廠"
+  allowed_changes:
+    - "index.html"
+    - "usage-rules.html"
+    - "README.md"
+    - "scripts/validate-ccps-os.mjs"
+    - "TASK_CONTRACT_REMOVE_CCPS_HEADER_TEXT_V1.yaml"
+    - "CURRENT_STATE.json"
+  forbidden_changes:
+    - "GPT 生成、提示詞、素材庫、Preflight、品牌選項與多平台功能"
+    - "副標題：房叔 UHOS × CCPS 品牌內容作業系統"
+    - "固定 CTA：追蹤ccps家慶佳業"
+    - "歷史已驗收契約"
+    - "Secrets、Push、Merge、Deploy、發布與付費 API"
+acceptance_checks:
+  - "index.html 的 title 與 H1 恰為 UHOS 自媒體工廠"
+  - "目前頁面不再出現 UHOS ccps自媒體工廠"
+  - "副標題與固定 CTA 保持不變"
+  - "完整既有 Validator 通過"
+  - "390x844 無橫向溢位"
+validators:
+  - "git diff --check"
+  - "node scripts/validate-ccps-os.mjs"
+  - "390x844 本機瀏覽器 DOM 驗收"
+repair_policy:
+  max_passes: 2
+  successful_steps_are_cached: true
+  paid_execution: false
+on_pass: "HUMAN_GATE_SINGLE_PAID_API_CONTENT_REVIEW"
+on_fail: "AUTO_REPAIR_FAILED_SCOPE_MAX_2_THEN_STOP"
+human_gate:
+  - "Git Push"
+  - "Deploy"
+evidence:
+  - "使用者提供截圖：/Users/uunclehouse77/Desktop/截圖 2026-08-26 21.59.12.png"
+  - "node scripts/validate-ccps-os.mjs：95/95 PASS"
+  - "390x844 本機瀏覽器 DOM PASS：document title 與 H1 均為 UHOS 自媒體工廠，舊標題不存在，scrollWidth 375 <= innerWidth 390"
+  - "副標題與固定 CTA 保持不變；未執行 Push、Deploy 或付費 API"
+state_writeback: "CURRENT_STATE.json"
+stop_point: "完成本機文字修復與驗收後停止，不自動 Push 或 Deploy。"

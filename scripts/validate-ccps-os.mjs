@@ -37,7 +37,7 @@ check("GPT material selector",text.includes('id="selectedMaterial"')&&text.inclu
 check("GPT key is page-memory only",text.includes("OpenAI 應用程式金鑰（僅目前分頁，不儲存）")&&!text.includes('writeStore("apiKey"')&&!text.includes("sessionStorage"));
 check("Uncle House header logo",text.includes('src="./assets/uncle-house-logo.jpeg"')&&fs.statSync(path.join(root,"assets/uncle-house-logo.jpeg")).size>10000);
 check("old CCPS logo preserved",fs.existsSync(path.join(root,"assets/ccps-logo.jpg")));
-check("homepage title",text.includes("<title>UHOS ccps自媒體工廠</title>")&&text.includes("<h1>UHOS ccps自媒體工廠</h1>"));
+check("homepage title",text.includes("<title>UHOS 自媒體工廠</title>")&&text.includes("<h1>UHOS 自媒體工廠</h1>")&&!pageText.includes("UHOS ccps自媒體工廠"));
 check("self media generator first",text.includes('id="contentGenerator"><h2>自媒體產生器</h2>')&&text.indexOf('id="contentGenerator"')<text.indexOf('id="homeQuickEntry"'));
 check("hamburger menu",text.includes('id="menuToggle"')&&text.includes('id="menuDrawer"')&&text.includes('aria-label="功能目錄"'));
 check("menu contains work sections",["companyLinks","adsLinks","quickLinks","recentPosts"].every(id=>text.includes(`id="${id}"`))&&text.indexOf('id="menuDrawer"')<text.indexOf('id="companyLinks"')&&text.indexOf('id="recentPosts"')<text.indexOf("</aside>"));
