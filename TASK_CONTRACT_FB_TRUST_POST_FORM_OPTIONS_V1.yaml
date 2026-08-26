@@ -1,0 +1,85 @@
+task_id: "CCPS-FB-TRUST-POST-FORM-OPTIONS-V1-001"
+milestone: "FB 信任貼文頁籤與表單選項完善"
+active_repository: "."
+formal_source: "CURRENT_STATE.json"
+controller_model: "SOL_CONTROLLER"
+execution_route: "ACTIVE_PRIMARY_SESSION_WITH_DETERMINISTIC_VALIDATOR"
+status: "VERIFIED_LOCAL"
+inventory:
+  reuse:
+    - "既有 GPT 動態生成、文章表單資料結構與提示詞欄位"
+    - "既有內容分類、文章角色、開場方式、敘事結構與文章目標"
+    - "既有素材庫、Preflight、品牌與寫作指紋"
+    - "固定 CTA：追蹤ccps家慶佳業"
+    - "前一個 HUMAN_GATE_SINGLE_PAID_API_CONTENT_REVIEW"
+  repair:
+    - "頁籤名稱：臉書信任文章"
+    - "主題目前為自由輸入，沒有 20 種選項"
+    - "圖片類型目前為自由輸入，沒有 8 種選項"
+    - "留言問題目前為自由輸入，沒有 5 種選項"
+  adapter: []
+  replace: []
+  archive: []
+  do_not_use:
+    - "改動 GPT API、素材雲端門禁、Preflight 或品牌規則"
+    - "uhos-ai-director-migration/（不屬於本次任務）"
+  missing:
+    - "20 種 CCPS 海外置產主題選項"
+    - "8 種圖片類型選項"
+    - "5 種留言問題選項"
+frozen_scope:
+  inputs:
+    - "使用者提供截圖：/Users/uunclehouse77/Desktop/截圖 2026-08-26 22.01.45.png"
+    - "使用者指定頁籤名稱：FB信任貼文"
+    - "使用者指定選項數量：主題 20、圖片類型 8、留言問題 5"
+  outputs:
+    - "頁籤顯示 FB信任貼文"
+    - "主題欄位為含 20 種選項的 select"
+    - "圖片類型欄位為含 8 種選項的 select"
+    - "留言問題欄位為含 5 種選項的 select"
+  allowed_changes:
+    - "ccps-rules.js"
+    - "app.js"
+    - "index.html"
+    - "scripts/validate-ccps-os.mjs"
+    - "README.md"
+    - "TASK_CONTRACT_FB_TRUST_POST_FORM_OPTIONS_V1.yaml"
+    - "CURRENT_STATE.json"
+  forbidden_changes:
+    - "ccps-gpt-adapter.js"
+    - "ccps-preflight.js"
+    - "ccps-brand-options.js"
+    - "ccps-storage.js"
+    - "data/、assets/、uhos-ai-director-migration/"
+    - "固定 CTA、副標題與首頁標題"
+    - "Secrets、付費 API、Push、Merge、Deploy 或發布"
+acceptance_checks:
+  - "頁籤文字恰為 FB信任貼文，舊文字不存在於現行 UI"
+  - "ARTICLE_TOPICS 恰好 20 種且不重複"
+  - "IMAGE_TYPES 恰好 8 種且不重複"
+  - "COMMENT_QUESTIONS 恰好 5 種且不重複"
+  - "topic、visualType、commentQuestion 均為 select 且由正式常數填入"
+  - "articleForm 仍輸出相同 topic、visual_type、comment_question 欄位"
+  - "既有 GPT prompt、Preflight、CTA 與所有回歸測試通過"
+  - "390x844 無橫向溢位且三個 select 可操作"
+validators:
+  - "git diff --check"
+  - "node scripts/validate-ccps-os.mjs"
+  - "390x844 本機瀏覽器 DOM 驗收"
+repair_policy:
+  max_passes: 2
+  successful_steps_are_cached: true
+  paid_execution: false
+on_pass: "HUMAN_GATE_SINGLE_PAID_API_CONTENT_REVIEW"
+on_fail: "AUTO_REPAIR_FAILED_SCOPE_MAX_2_THEN_STOP"
+human_gate:
+  - "Git Push"
+  - "Deploy"
+evidence:
+  - "Deterministic validator: 99/99 PASS"
+  - "Browser smoke: 390x844 PASS; topic=20, visualType=8, commentQuestion=5"
+  - "Browser UI: tab=FB信任貼文; old label absent; three selects operational; scrollWidth=375 <= innerWidth=390; console errors=0"
+  - "AUTO_REPAIR PASS_1: cache-busted ccps-rules.js import to prevent a stale module from hiding the new exports"
+  - "External actions: paid API=false, Git Push=false, Deploy=false"
+state_writeback: "CURRENT_STATE.json"
+stop_point: "完成本機功能與驗收後停止，不自動呼叫 API、Push 或 Deploy。"

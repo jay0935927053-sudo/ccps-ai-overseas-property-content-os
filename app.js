@@ -1,4 +1,4 @@
-import { BRAND_CTA, CONTENT_CATEGORIES, CONTENT_ROLES, EVIDENCE_STATES, HOOK_TYPES, MATERIAL_TYPES, NARRATIVE_TYPES } from "./ccps-rules.js";
+import { ARTICLE_TOPICS, BRAND_CTA, COMMENT_QUESTIONS, CONTENT_CATEGORIES, CONTENT_ROLES, EVIDENCE_STATES, HOOK_TYPES, IMAGE_TYPES, MATERIAL_TYPES, NARRATIVE_TYPES } from "./ccps-rules.js?v=20260826-form-options-v1";
 import { BRAND_FIELD_OPTIONS } from "./ccps-brand-options.js";
 import { buildArticleFromGpt, platformRewrite, rotateDna } from "./ccps-content-engine.js";
 import { materialCloudEligibility, requestGptArticle } from "./ccps-gpt-adapter.js";
@@ -11,7 +11,7 @@ const $=id=>document.getElementById(id); let current=null; let officialMaterials
 const fill=(id,items)=>$(id).innerHTML=items.map(x=>`<option>${x}</option>`).join("");
 const fillValueLabels=(id,values,labels)=>$(id).replaceChildren(...values.map((value,index)=>new Option(labels[index]||value,value)));
 const fillLinks=(id,items)=>$(id).replaceChildren(...items.map(item=>new Option(item.label,item.url)));
-fill("category",CONTENT_CATEGORIES);fill("contentRole",CONTENT_ROLES);fill("hookType",HOOK_TYPES);fillValueLabels("narrativeType",NARRATIVE_TYPES,NARRATIVE_LABELS);fill("materialType",MATERIAL_TYPES);fillValueLabels("materialEvidence",EVIDENCE_STATES,EVIDENCE_STATES.map(x=>EVIDENCE_LABELS[x]));
+fill("topic",ARTICLE_TOPICS);fill("visualType",IMAGE_TYPES);fill("commentQuestion",COMMENT_QUESTIONS);fill("category",CONTENT_CATEGORIES);fill("contentRole",CONTENT_ROLES);fill("hookType",HOOK_TYPES);fillValueLabels("narrativeType",NARRATIVE_TYPES,NARRATIVE_LABELS);fill("materialType",MATERIAL_TYPES);fillValueLabels("materialEvidence",EVIDENCE_STATES,EVIDENCE_STATES.map(x=>EVIDENCE_LABELS[x]));
 fill("platformAssetType",PLATFORM_ASSET_TYPES);fill("videoDuration",VIDEO_DURATIONS.map(x=>`${x} 秒`));fill("videoStyle",VIDEO_STYLES);fill("aspectRatio",ASPECT_RATIOS);
 fill("materialTitle",MATERIAL_FORM_OPTIONS.titles);fill("materialSource",MATERIAL_FORM_OPTIONS.sources);fill("materialRegion",MATERIAL_FORM_OPTIONS.regions);fill("materialProperty",MATERIAL_FORM_OPTIONS.properties);fill("materialClient",MATERIAL_FORM_OPTIONS.clients);fill("materialPrivacy",MATERIAL_FORM_OPTIONS.privacy);fill("materialContentTemplate",MATERIAL_CONTENT_TEMPLATES.map(x=>x.label));fill("officialTopic",MATERIAL_FORM_OPTIONS.searchTopics);
 $("materialTagChoices").replaceChildren(...MATERIAL_FORM_OPTIONS.tags.map(tag=>{const label=document.createElement("label"),input=document.createElement("input"),span=document.createElement("span");label.className="choice-chip";input.type="checkbox";input.name="materialTag";input.value=tag;span.textContent=tag;label.append(input,span);return label}));
