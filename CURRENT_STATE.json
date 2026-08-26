@@ -1,12 +1,13 @@
 {
   "task_id": "CCPS-GPT-FORM-RELEASE-V1-001",
   "project": "CCPS AI Overseas Property Content OS",
-  "status": "RELEASE_AUTHORIZED_PENDING_PUSH",
+  "status": "DEPLOYED_VERIFIED",
   "active_task": "CCPS-GPT-FORM-RELEASE-V1-001",
   "accepted_deployed_tasks": [
     "CCPS-FOOTER-USAGE-LINK-V1-001",
     "CCPS-WEBINAR-ADMIN-BUTTON-V1-001",
-    "CCPS-FOOTER-WEBINAR-BUTTON-DEPLOY-V1-001"
+    "CCPS-FOOTER-WEBINAR-BUTTON-DEPLOY-V1-001",
+    "CCPS-GPT-FORM-RELEASE-V1-001"
   ],
   "official_material_library": {
     "source": "https://ccps-my.com/",
@@ -48,7 +49,7 @@
   },
   "gpt_dynamic_content_adapter": {
     "contract": "TASK_CONTRACT_GPT_DYNAMIC_CONTENT_ADAPTER_V1.yaml",
-    "implementation_state": "VERIFIED_LOCAL",
+    "implementation_state": "DEPLOYED_VERIFIED",
     "implementation_commit": "fdfab912043603da231021a40da6e22ee8fe22f4",
     "model": "gpt-5.6-terra",
     "generation_api": "OpenAI Responses API",
@@ -64,20 +65,21 @@
     "deterministic_validator": "95/95 PASS",
     "mobile_browser_smoke": "PASS at 390x844",
     "paid_api_called": true,
-    "human_review": "PASS_WITH_REVIEW_NOTE"
+    "human_review": "PASS_WITH_REVIEW_NOTE",
+    "published": true
   },
   "header_title_patch": {
     "contract": "TASK_CONTRACT_REMOVE_CCPS_HEADER_TEXT_V1.yaml",
-    "status": "VERIFIED_LOCAL",
+    "status": "DEPLOYED_VERIFIED",
     "implementation_commit": "cef14d4bf419d5ef42ca7e405b798128b7023e9c",
     "title": "UHOS 自媒體工廠",
     "deterministic_validator": "95/95 PASS",
     "mobile_browser_smoke": "PASS at 390x844",
-    "published": false
+    "published": true
   },
   "fb_trust_post_form_options": {
     "contract": "TASK_CONTRACT_FB_TRUST_POST_FORM_OPTIONS_V1.yaml",
-    "status": "VERIFIED_LOCAL",
+    "status": "DEPLOYED_VERIFIED",
     "implementation_commit": "77d4c5254b975a94ef6711c72b1cecdea43cc076",
     "tab_label": "FB信任貼文",
     "article_topics": 20,
@@ -86,7 +88,7 @@
     "deterministic_validator": "99/99 PASS",
     "mobile_browser_smoke": "PASS at 390x844",
     "auto_repair": "PASS_1: cache-busted ccps-rules.js import",
-    "published": false
+    "published": true
   },
   "single_paid_api_content_review": {
     "contract": "TASK_CONTRACT_SINGLE_PAID_API_CONTENT_REVIEW_V1.yaml",
@@ -108,32 +110,47 @@
   },
   "gpt_form_release": {
     "contract": "TASK_CONTRACT_PUSH_DEPLOY_GPT_FORM_RELEASE_V1.yaml",
-    "status": "RELEASE_AUTHORIZED_PENDING_PUSH",
+    "status": "DEPLOYED_VERIFIED",
     "remote_baseline": "8daa954",
     "verified_feature_head": "3e1e41b",
     "initial_ahead_behind": "0 behind / 9 ahead",
     "push_authorized": true,
     "deploy_authorized": true,
     "deployment_workflow": "pages-build-deployment",
-    "live_verification": "PENDING",
-    "published": false
+    "release_commit": "f84f48283ff510d720b14672cecbb7b5c38f5133",
+    "deployment_run_id": 32981732979,
+    "deployment_run_status": "SUCCESS",
+    "deployment_url": "https://jay0935927053-sudo.github.io/ccps-ai-overseas-property-content-os/",
+    "live_verification": {
+      "http_source": "PASS",
+      "homepage_title": "UHOS 自媒體工廠",
+      "tab_label": "FB信任貼文",
+      "article_topics": 20,
+      "image_types": 8,
+      "comment_questions": 5,
+      "gpt_dynamic_engine": "PASS",
+      "viewport": "390x844",
+      "scroll_width": 375,
+      "console_errors": 0
+    },
+    "published": true
   },
-  "source": {"repository":"jay0935927053-sudo/ccps-ai-overseas-property-content-os","branch":"main","head_sha":"3e1e41b"},
+  "source": {"repository":"jay0935927053-sudo/ccps-ai-overseas-property-content-os","branch":"main","head_sha":"f84f48283ff510d720b14672cecbb7b5c38f5133"},
   "upstream_reference": {"repository":"jay0935927053-sudo/uncle-house-ai-tool","branch":"main","head_sha":"3e73dc96c3e3cf22e9e8d5d90c186551e6140888"},
   "validator": "node scripts/validate-ccps-os.mjs",
   "acceptance": {
-    "deterministic_validator": "77/77 PASS",
-    "browser_acceptance": "53/53 PASS at 390x844",
+    "deterministic_validator": "99/99 PASS",
+    "browser_acceptance": "PASS at 390x844",
     "viewport": "390x844",
     "paid_api_called": true,
     "repository": "https://github.com/jay0935927053-sudo/ccps-ai-overseas-property-content-os",
-    "deployed_commit": "d5db6def7655f2b6b344fc2dabeb9641eb30d2cc",
-    "github_pages_workflow": "pages-build-deployment 32906646827 PASS",
+    "deployed_commit": "f84f48283ff510d720b14672cecbb7b5c38f5133",
+    "github_pages_workflow": "pages-build-deployment 32981732979 PASS",
     "deployment": "https://jay0935927053-sudo.github.io/ccps-ai-overseas-property-content-os/",
-    "live_smoke_test": "PASS (2026-08-26: footer usage-rules URL and visible webinar admin button verified at 390x844 with no horizontal overflow)"
+    "live_smoke_test": "PASS (2026-08-26: UHOS title, FB trust post tab, 20/8/5 selects and GPT dynamic engine verified at 390x844 with no horizontal overflow or console errors)"
   },
-  "on_pass": "PUSH_MAIN_WAIT_GITHUB_PAGES_VERIFY_LIVE",
+  "on_pass": "STOP_RELEASE_VERIFIED",
   "on_fail": "AUTO_REPAIR_FAILED_SCOPE_MAX_2_THEN_STOP",
-  "external_actions_authorized": true,
-  "stop_reason": "Push and Deploy are authorized; release contract is frozen and awaiting the initial main push"
+  "external_actions_authorized": false,
+  "stop_reason": "GPT dynamic engine and FB trust post form release are deployed and live-verified; release authorization is consumed"
 }

@@ -4,7 +4,7 @@ active_repository: "."
 formal_source: "CURRENT_STATE.json"
 controller_model: "SOL_CONTROLLER"
 execution_route: "PUSH_MAIN_THEN_GITHUB_PAGES_DEPLOY_AND_LIVE_VERIFY"
-status: "CONTRACT_FROZEN"
+status: "VERIFIED_RELEASE"
 inventory:
   reuse:
     - "GPT 動態內容轉接器：fdfab912043603da231021a40da6e22ee8fe22f4"
@@ -70,6 +70,15 @@ on_pass: "STOP_RELEASE_VERIFIED"
 on_fail: "AUTO_REPAIR_DEPLOYMENT_ONLY_MAX_2_THEN_STOP"
 human_gate:
   push_and_deploy: "AUTHORIZED_BY_USER"
-evidence: []
+evidence:
+  - "Pre-deploy deterministic validator: 99/99 PASS"
+  - "Remote divergence before release: 0 behind / 10 ahead after contract freeze"
+  - "Fast-forward Push: 8daa954..f84f482 main -> main"
+  - "GitHub Pages run 32981732979: pages-build-deployment SUCCESS for f84f48283ff510d720b14672cecbb7b5c38f5133"
+  - "Public HTTP source verification: all requested files HTTP 200; new title/tab present; old title/tab absent"
+  - "Public GPT engine verification: app.js loads ccps-gpt-adapter.js; Responses API, gpt-5.6-terra and article/brand/voice prompt fields present"
+  - "Public browser smoke 390x844: topic=20, visualType=8, commentQuestion=5, scrollWidth=375, console errors=0"
+  - ".env.local, output/ and uhos-ai-director-migration/ excluded from Commit and Push"
+  - "Paid API requests during release: 0"
 state_writeback: "CURRENT_STATE.json"
 stop_point: "最終狀態 Commit 部署與公開網站驗證通過後停止。"
