@@ -3,7 +3,8 @@ milestone: "把原版 GPT 動態內容生成能力接回新版 CCPS 自媒體工
 active_repository: "."
 formal_source: "CURRENT_STATE.json"
 controller_model: "SOL_CONTROLLER"
-execution_route: "TERRA_BOUNDED_EXECUTOR_WITH_DETERMINISTIC_VALIDATOR"
+execution_route: "ACTIVE_PRIMARY_SESSION_WITH_DETERMINISTIC_VALIDATOR"
+route_note: "本次未切換模型或委派；以目前主要工作階段完成 bounded implementation，最終由本機確定性驗收器判定。"
 status: "VERIFIED_WAITING_HUMAN_API_REVIEW"
 
 baseline:
